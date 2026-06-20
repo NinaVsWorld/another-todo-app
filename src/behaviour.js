@@ -1,3 +1,5 @@
+// As I develop this functionality, decide if I can merge the common
+// attributes (setText, getText) into one handleText function
 function checkItem() {
     // want it to be editable so use let
     let item;
@@ -22,3 +24,5 @@ function note() {
     const getText = () => {note};
     return {setText, getText};
 }
+
+export {checkItem, note};
