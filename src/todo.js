@@ -5,6 +5,7 @@ function todo(text) {
     let description;
     let dueDate;
     let todoNote;
+    const id = crypto.randomUUID();
     const checkList = [];
 
     // description is optional, so we have setDescription()
@@ -24,7 +25,11 @@ function todo(text) {
         checkList.push(checkItem(text));
     }
 
+    const getID = () => id;
+
     // dueDate is probably a string. want to use date-fns library later
     // I probably also want a method to edit the title
-    return {setDescription, createNote, addCheckItem};
+    return {setDescription, createNote, addCheckItem, getID};
 }
+
+export {todo};
