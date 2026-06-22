@@ -4,31 +4,58 @@ function todo(text) {
     let title = text;
     let description;
     let dueDate;
-    let todoNote;
     const id = crypto.randomUUID();
-    const checkList = [];
+    let checkList = [];
+    let notes = [];
 
     // description is optional, so we have setDescription()
     const setDescription = (text) => {
         description = text;
     }
 
-    // note is optional so create note method. Only one note
+    // note is optional so create note method.
     const createNote = (text) => {
-        if (todoNote === undefined) {
-            todoNote = note(text);
-        }
+        noteItem = note(text);
+        notes.push(noteItem);
     }
+
+    // Delete note
+    const deleteNote = (id) => {
+        notes = notes.filter(item => item.getID() !== id);
+    }
+
+    // Find note
+    const findNote = (id) => notes.find(item => item.getID() === id);
 
     // checklist items are optional, so we have addCheckItem
     const addCheckItem = (text) => {
         checkList.push(checkItem(text));
     }
 
+    // Delete check item
+    const deleteCheckItem = (id) => {
+        checkList = checkList.filter(item => item.getID() !== id);
+    }
+
+    // find check item 
+    const findCheckItem = (id) => checkList.find(item => item.getID() === id);
+
+    // set due date YYYY-MM-DD
+    const setDueDate = (date) => {
+        dueDate = date;
+    }
+
+    // edit title
+    const editTitle = (text) => {
+        title = text;
+    }
+
+    // get title
+    const getTitle = () => title;
+
+    // get todo ID
     const getID = () => id;
 
-    // dueDate is probably a string. want to use date-fns library later
-    // I probably also want a method to edit the title
     return {setDescription, createNote, addCheckItem, getID};
 }
 

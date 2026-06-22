@@ -31,4 +31,6 @@ function list(title) {
     const getListTitle = () => listTitle;
 
     // Sort todos chronologically by date
+
+    return {addTodo, deleteTodo, getListTitle, getTodo, getTodos, editTitle};
 }
