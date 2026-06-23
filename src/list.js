@@ -26,7 +26,7 @@ function list(title) {
     }
 
     // Get todos array
-    const getTodos = () => todos;
+    const getTodos = () => [...todos];
 
     // Get title
     const getListTitle = () => listTitle;

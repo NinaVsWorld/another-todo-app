@@ -3,7 +3,7 @@
 function checkItem(text) {
     // want it to be editable so use let
     let item = text;
-    const id = crypto.randomUUID;
+    const id = crypto.randomUUID();
     let isChecked = false;
 
     // deal with backspacing behaviour later
@@ -20,13 +20,13 @@ function checkItem(text) {
         }
     }
 
-    const getText = () => {item};
+    const getText = () => item;
     return {editText, getText, changeChecked};
 }
 
 function note(text) {
     let note = text;
-    const id = crypto.randomUUID;
+    const id = crypto.randomUUID();
 
     const editText = (text) => {
         note = text;

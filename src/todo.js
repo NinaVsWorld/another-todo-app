@@ -1,4 +1,4 @@
-import { checkItem } from "./behaviour";
+import { checkItem, note } from "./behaviour";
 
 function todo(text) {
     let title = text;
@@ -15,7 +15,7 @@ function todo(text) {
 
     // note is optional so create note method.
     const createNote = (text) => {
-        noteItem = note(text);
+        const noteItem = note(text);
         notes.push(noteItem);
     }
 
