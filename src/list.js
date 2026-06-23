@@ -1,9 +1,10 @@
-import { todo } from "./todo";
+import todo from "./todo";
 
 // list should be able to reorder todos and sort functionaliaty
 function list(title) {
     let listTitle = title;
     let todos = [];
+    const id = crypto.randomUUID;
 
     // Add todos to todos list
     const addTodo = (text) => {
@@ -30,7 +31,21 @@ function list(title) {
     // Get title
     const getListTitle = () => listTitle;
 
-    // Sort todos chronologically by date
+    // get id
+    const getID = () => id;
 
-    return {addTodo, deleteTodo, getListTitle, getTodo, getTodos, editTitle};
+    // Sort todos chronologically by date (newest)
+    const sortByNewest = () => {
+        todos.sort((a, b) => b.getDate().localeCompare(a.getDate()));
+    }
+
+    const sortByOldest = () => {
+        todos.sort((a, b) => a.getDate().localeCompare(b.getDate()));
+    }
+
+    // reorder todos
+
+    return {addTodo, deleteTodo, getListTitle, getTodo, getTodos, editTitle, getID};
 }
+
+export default list;

@@ -1,10 +1,20 @@
+import list from "./list";
 
-// literally just a board to hold the lists
-// new boards can be created (this is probably for index.js tho)
-function board() {
-    let title;
-    const lists = [];
+function board(title) {
+    let boardTitle;
+    let lists = [];
+    const id = crypto.randomUUID;
 
     // Add list to board
+    const addList = (text) => {
+        listItem = list(text);
+        lists.push(listItem);
+    }
 
+    // Delete list from board
+    const deleteList = (id) => {
+        lists = lists.filter(item => item.getID() !== id);
+    }
+
+    // reorder list
 }

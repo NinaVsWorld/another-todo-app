@@ -56,7 +56,10 @@ function todo(text) {
     // get todo ID
     const getID = () => id;
 
-    return {setDescription, createNote, addCheckItem, getID};
+    // get date
+    const getDate = () => dueDate;
+
+    return {setDescription, createNote, addCheckItem, getID, getDate};
 }
 
-export {todo};
+export default todo;
