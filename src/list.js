@@ -4,7 +4,7 @@ import todo from "./todo";
 function list(title) {
     let listTitle = title;
     let todos = [];
-    const id = crypto.randomUUID;
+    const id = crypto.randomUUID();
 
     // Add todos to todos list
     const addTodo = (text) => {
@@ -44,8 +44,20 @@ function list(title) {
     }
 
     // reorder todos
+    const reorderTodos = (currentIndex, targetIndex) => {
+        const movedItem = todos.find((item, index) => index === currentIndex);
+        const remainingItems = todos.filter(item => item !== movedItem);
 
-    return {addTodo, deleteTodo, getListTitle, getTodo, getTodos, editTitle, getID};
+        const reorderedItems = [
+            ...remainingItems.slice(0, targetIndex),
+            movedItem,
+            ...remainingItems.slice(targetIndex)
+        ];
+
+        todos = reorderedItems;
+    }
+
+    return {addTodo, deleteTodo, getListTitle, getTodo, getTodos, editTitle, getID, reorderTodos};
 }
 
 export default list;
