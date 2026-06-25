@@ -9,6 +9,7 @@ function board(title) {
     const addList = (text) => {
         const listItem = list(text);
         lists.push(listItem);
+        return listItem;
     }
 
     // Delete list from board
