@@ -59,7 +59,19 @@ function todo(text) {
     // get date
     const getDate = () => dueDate;
 
-    return {setDescription, createNote, addCheckItem, getID, getDate};
+    return {setDescription, 
+        createNote, 
+        addCheckItem, 
+        deleteCheckItem, 
+        getID, 
+        getDate, 
+        findNote, 
+        findCheckItem,
+        setDueDate,
+        editTitle,
+        getTitle,
+        deleteNote
+    };
 }
 
 export default todo;

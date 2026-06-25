@@ -57,7 +57,7 @@ function list(title) {
         todos = reorderedItems;
     }
 
-    return {addTodo, deleteTodo, getListTitle, getTodo, getTodos, editTitle, getID, reorderTodos};
+    return {addTodo, deleteTodo, getListTitle, getTodo, getTodos, editTitle, getID, reorderTodos, sortByNewest, sortByOldest};
 }
 
 export default list;

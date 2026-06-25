@@ -41,5 +41,7 @@ function board(title) {
     // Get all lists
     const getLists = () => [...lists];
 
-    return {addList, deleteList, reorderLists, editTitle, getTitle};
+    return {addList, deleteList, reorderLists, editTitle, getTitle, getLists};
 }
+
+export default board;
