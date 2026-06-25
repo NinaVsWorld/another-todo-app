@@ -1,4 +1,4 @@
-import { checkItem, note } from "./behaviour";
+import { checkItem, note } from "./behaviour.js";
 
 function todo(text) {
     let title = text;

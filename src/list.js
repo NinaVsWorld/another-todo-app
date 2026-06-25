@@ -1,4 +1,4 @@
-import todo from "./todo";
+import todo from "./todo.js";
 
 // list should be able to reorder todos and sort functionaliaty
 function list(title) {

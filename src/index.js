@@ -1,6 +1,6 @@
-import board from "./project";
-import list from "./list";
-import todo from "./todo";
+import board from "./project.js";
+import list from "./list.js";
+import todo from "./todo.js";
 
 // New board
 const myBoard = board("My Board");
