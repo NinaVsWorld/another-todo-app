@@ -10,6 +10,7 @@ function list(title) {
     const addTodo = (text) => {
         const item = todo(text);
         todos.push(item);
+        return item;
     }
 
     // Delete todos from todos list
