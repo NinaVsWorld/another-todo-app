@@ -59,6 +59,9 @@ function todo(text) {
     // get date
     const getDate = () => dueDate;
 
+    // get description
+    const getDescription = () => description;
+
     return {setDescription, 
         createNote, 
         addCheckItem, 
@@ -70,7 +73,8 @@ function todo(text) {
         setDueDate,
         editTitle,
         getTitle,
-        deleteNote
+        deleteNote,
+        getDescription
     };
 }
 
