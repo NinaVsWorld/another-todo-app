@@ -1,0 +1,25 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    background-color: aquamarine;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background-color: bisque;
+}
+
+.container {
+    display: flex;
+    background-color: aliceblue;
+}
+
+.add-todo {
+    background-color: rgb(205, 255, 209);
+}

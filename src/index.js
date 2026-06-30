@@ -1,6 +1,7 @@
 import board from "./project.js";
 import list from "./list.js";
 import todo from "./todo.js";
+import "./style.css";
 
 // New board
 const myBoard = board("My Board");
