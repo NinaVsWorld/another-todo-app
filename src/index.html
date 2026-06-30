@@ -12,10 +12,6 @@
 
     <body>
         <div class="container">
-            <!-- hardcoded card for now. These will be dynamically generated later on -->
-            <div class="list">
-                <div class="add-todo">Add todo</div>
-            </div>
             <button class="add-list">Add another list</button>
         </div>
         <div class="footer">
@@ -23,9 +19,36 @@
              <button class="switch-board">Switch Projects</button>
         </div>
 
-        <template class="list">
-            
+        <!-- template for list -->
+        <template class="list-template">
+            <!-- Main container for the column -->
+            <div class="list-wrapper" data-list-id="">
+                <div class="list-header">
+                    <h2 class="list-title"></h2>
+                    <div class="list-controls">
+                        <span class="todo-count">0</span>
+                        <button class="delete-list">Delete</button>
+                    </div>
+                </div>
+
+                <!-- todo cards go here -->
+                 <div class="todos-container"></div>
+                 <footer class="list-card-footer">
+                    <button class="add-todo">Add todo</button>
+                 </footer>
+            </div>
         </template>
+
+        <!-- template for todo -->
+         <template class="todo-template">
+            <!-- individual card -->
+            <div class="card-wrapper" data-todo-id="">
+                <h3 class="card-title"></h3>
+                <span class="badges">
+                    <span class="duedate"></span>
+                </span>
+            </div>
+         </template>
     </body>
 </body>
 </html>

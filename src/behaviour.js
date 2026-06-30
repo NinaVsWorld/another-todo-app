@@ -21,7 +21,10 @@ function checkItem(text) {
     }
 
     const getText = () => item;
-    return {editText, getText, changeChecked};
+
+    const getID = () => id;
+
+    return {editText, getText, changeChecked, getID};
 }
 
 function note(text) {
@@ -33,7 +36,10 @@ function note(text) {
     }
 
     const getText = () => note;
-    return {editText, getText};
+
+    const getID = () => id;
+
+    return {editText, getText, getID};
 }
 
 export {checkItem, note};
