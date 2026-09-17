@@ -1,11 +1,13 @@
+const allTasks = []
+
 // task object
 class task {
-    constructor(title, description, date, priority, id, projID) {
+    constructor(title, description, date, priority, projID) {
         this.title = title
         this.description = description
         this.date = date
         this.priority = priority
-        this.id = id
+        this.id = getID() // need to write this function
         this.projectID = projID
     }
 };
