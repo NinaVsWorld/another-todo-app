@@ -3,25 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo App</title>
+    <title>DoLister</title>
 <script defer src="main.js"></script></head>
 <body>
-    <header>
-        <div class="board-title">Board Title</div>
-    </header>
-
-    <body>
-        <div class="container">
-            <!-- hardcoded card for now. These will be dynamically generated later on -->
-            <div class="list">
-                <div class="Add todo">Add todo</div>
+    <div class="header">
+        <h1>
+            DoLister
+            <!--add and svg here for the menu collapse button-->
+        </h1>
+    </div>
+    <div class="menu">
+        <div class="inboxes">
+            <div class="add-task">
+                <!--add svg for +-->
+                Add Task
             </div>
-            <button class="add-list">Add another list</button>
+            <div class="search">
+                <!--add svg for search-->
+                Search
+            </div>
+            <div class="inbox">
+                <!--add svg for inbox-->
+                Inbox
+            </div>
+            <div class="today">
+                <!--add svg for today-->
+                Today
+            </div>
+            <div class="upcoming">
+                <!--add svg for upcoming-->
+                Upcoming
+            </div>
+            <div class="completed">
+                <!--add svg for completed-->
+                Completed
+            </div>
         </div>
-        <div class="footer">
-            <!-- where the buttons to switch projects/boards will be -->
-             <button class="switch-board">Switch Projects</button>
+        <div class="projects">
+            <div class="myprojects-heading">
+                <div class="my-projects">My Projects</div>
+                <!--add svg for projects add button-->
+            </div>
+            <!--dynamically add projects here-->
+            <div class="projects-list"></div>
         </div>
-    </body>
+    </div>
+    <div class="list">
+        <div class="class-list"></div>
+        <button class=add-task-button>Add Task</button>
+    </div>
 </body>
+
+<!--task form-->
+<div class="task-form">
+    <form>
+        <div class="title">
+            <label for="title">Title</label>
+            <input type="text" class="task-title" id="task-title" required placeholder="Task Title">
+        </div>
+        <div class="description">
+            <label for="description">Description</label>
+            <textarea name="description" id="description">Description</textarea>
+        </div>
+        <div class="due-date">
+            <label for="due-date">Due Date</label>
+            <input type="date" class="due-date" id="due-date" value="YYYY-MM-DD" min="1900-01-01" max="3000-01-01">
+        </div>
+        <div class="priority">
+            <label for="Priority">Priority</label>
+            <select name="priority" id=priority">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+        </div>
+        <div class="project">
+            <label for="inbox">Inbox</label>
+            <!--dynamically update the inbox/project options-->
+        </div>
+        <div class="buttons">
+            <button type="button" class="create-task">Create Task</button>
+            <button type="button" class="cancel">Cancel</button>
+        </div>
+    </form>
+</div>
+
+<!--task card-->
+<div class="task-card">
+    <div class="radio-button">
+        <input type="radio" id="task-item" name="task-item" checked>
+        <!--dynamicall updated from user input-->
+        <label for="task-item"></label>
+    </div>
+    <div class="details">
+        <!--dynamically updated from user input-->
+        <div class="date-text">DD-MM-YYYY</div>
+        <div class="priority-display">Priority</div>
+        <div class="options">. . .</div>
+    </div>
+</div>
+
+<!--project card-->
+<div class="project-card">
+    <div class="title-icon">
+        <!--svg for project icon-->
+        <!--dynamically update from user input-->
+        <div class="project-title">project</div>
+    </div>
+    <div class="options">. . .</div>
+</div>
+
+<!--options menu for task/project-->
+<div class="options-menu">
+    <div class="edit">
+        <!--svg for edit-->
+        Edit Task
+    </div>
+    <div class="delete">
+        <!--svg for delete-->
+        Delete
+    </div>
+</div>
 </html>
