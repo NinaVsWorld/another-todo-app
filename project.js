@@ -1,7 +1,7 @@
 import { allTasks, deleteTask } from "./task";
 export const allProjects = []
 
-class project {
+class Project {
     constructor(title) {
         this.title = title
         this.id = crypto.randomUUID()
@@ -9,11 +9,17 @@ class project {
 }
 
 export function createProject(title) {
-    const project = createProject(title);
+    const project = new Project(title);
     allProjects.push(project);
 }
 
-// editProject
+export function editProject(id, newTitle) {
+    const index = allProjects.findIndex(proj => proj.id == id);
+    if (index > -1) {
+        const project = allProjects[index];
+        project.title = newTitle ?? project.title;
+    }
+}
 
 export function deleteProject(id) {
     const index = allProjects.findIndex(proj => proj.id == id);
