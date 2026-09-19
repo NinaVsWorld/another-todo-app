@@ -1,7 +1,7 @@
 export const allTasks = []
 
 // task object
-class task {
+class Task {
     constructor(title, description, date, priority, projID) {
         this.title = title
         this.description = description
@@ -14,21 +14,38 @@ class task {
 };
 
 export function createTask(title, description, date, priority, projID) {
-    const task = new task(title, description, date, priority, projID);
+    const task = new Task(title, description, date, priority, projID);
     allTasks.push(task);
 }
 
-export function completeTask(id) {
+// completing and uncompleting task
+export function toggleCompletionState(id) {
     const index = allTasks.findIndex(task => task.id == id);
     const task = allTasks[index];
-    task.completed = true;
+    if (index > - 1) {
+        if (!task.completed) {
+            task.completed = true;
+        } else {
+            task.completed = false;
+        }
+    }
 }
 
-// uncomplete a task
+export function editTask(id, newTitle, newDescription, newDate, newPriority, newProjID) {
+    const index = allTasks.findIndex(task => task.id == id);
+    const task = allTasks[index];
+    // if title is blank or undefined, keep og title
+    task.title = newTitle ?? task.title;
+    // if description is blank or undefined, keep og description
+    task.description = newDescription ?? task.description;
+    // if date is blank or undefined, keep og date
+    task.date = newDate ?? task.date;
+    // if priority is blank or undefined, keep og priority
+    task.priority = newPriority ?? task.priority;
+    // same for projID
+    task.projectID = newProjID ?? task.projectID;
+}
 
-// edit task
-
-// delete task
 export function deleteTask(id) {
     const index = allTasks.findIndex(task => task.id == id);
     if (index > -1) {
