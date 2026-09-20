@@ -1,4 +1,4 @@
-import { allTasks, deleteTask } from "./task";
+import { allTasks, deleteTask } from "./task.js";
 export const allProjects = []
 
 class Project {
@@ -11,6 +11,7 @@ class Project {
 export function createProject(title) {
     const project = new Project(title);
     allProjects.push(project);
+    return project.id;
 }
 
 export function editProject(id, newTitle) {
