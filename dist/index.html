@@ -43,19 +43,22 @@
             <div class="myprojects-heading">
                 <div class="my-projects">My Projects</div>
                 <!--add svg for projects add button-->
+                <button class="add-proj">Add</button>
             </div>
             <!--dynamically add projects here-->
             <div class="projects-list"></div>
         </div>
     </div>
     <div class="list">
-        <div class="class-list"></div>
-        <button class=add-task-button>Add Task</button>
+        <div class="list-container">
+            <div class="class-list"></div>
+            <button class=add-task-button>Add Task</button>
+        </div>
     </div>
 </body>
 
 <!--task form-->
-<div class="task-form">
+<dialog class="task-form">
     <form>
         <div class="title">
             <label for="title">Title</label>
@@ -86,7 +89,20 @@
             <button type="button" class="cancel">Cancel</button>
         </div>
     </form>
-</div>
+</dialog>
+
+<!--project form-->
+<dialog class="project-form">
+    <form>
+        <div class="title">
+            <label for="title">Title</label>
+        </div>
+        <div class="buttons">
+            <button type="button" class="create-project">Create Project</button>
+            <button type="button" class="cancel">Cancel</button>
+        </div>
+    </form>
+</dialog>
 
 <!--task card-->
 <div class="task-card">

@@ -1,7 +1,10 @@
 const projBtn = document.querySelector(".add-proj");
+const projForm = document.querySelector(".project-form");
 
-function showProjForm() {
-    
+export function showProjForm() {
+    projBtn.addEventListener("click", () => {
+        projForm.showModal();
+    });
 }
 
 function registerProject() {
