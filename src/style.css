@@ -1,0 +1,26 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 10ch 2fr 2fr;
+    grid-template-columns: 30ch 1fr;
+}
+
+.header {
+    display: grid;
+    grid-column: 1 / span 2;
+}
+
+.menu, .list {
+    display: grid;
+    grid-row: 2 / span 2;
+}
+
+.options-menu, .task-card, .project-card {
+    display: none;
+}
