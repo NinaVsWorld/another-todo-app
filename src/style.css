@@ -14,11 +14,36 @@ body {
 .header {
     display: grid;
     grid-column: 1 / span 2;
+    background-color: aquamarine;
 }
 
 .menu, .list {
     display: grid;
     grid-row: 2 / span 2;
+    background-color: bisque;
+}
+
+.menu {
+    grid-template-rows: repeat(2, max-content);
+    gap: 55px;
+    padding: 20px;
+}
+
+.inboxes, .projects {
+    display: grid;
+    grid-auto-flow: row;
+    gap: 20px;
+}
+
+.list {
+    background-color: aliceblue;
+}
+
+.list-container {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    justify-self: center;
 }
 
 .options-menu, .task-card, .project-card {
