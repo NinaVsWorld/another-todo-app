@@ -1,4 +1,4 @@
-import { createProject, allProjects } from "./project.js";
+import { createProject, allProjects, getProject } from "./project.js";
 
 const projForm = document.querySelector(".project-form");
 const projectCard = document.querySelector(".project-card");
@@ -29,10 +29,6 @@ function registerProject() {
     projTitle.value = "";
 }
 
-function displayProjPage() {
-
-}
-
 // clear existing projects and re-render
 function renderProjects() {
     // clear existing projects
@@ -50,4 +46,32 @@ function displayProject(proj) {
     project.querySelector(".card-title").textContent = proj.title;
     project.dataset.id = proj.id;
     projectList.append(project);
+}
+
+// when clicking on each card, wipe the main page
+// update page title
+// and then worry about rendering tasks later (will have to import from taskUImanager??)
+export function renderProject() {
+    container.addEventListener("click", (event) => {
+        const target = event.target.closest(".project-card");
+        if (target) {
+            // get the target
+            const projID = target.dataset.id;
+            const project = getProject(projID);
+            const projTitle = project.title;
+            // update the page title
+            clearPage();
+            updatePage(projTitle);
+        }
+    });
+}
+
+function clearPage() {
+    const pageTitle = document.querySelector("#page-title");
+    pageTitle.textContent = "";
+}
+
+function updatePage(title) {
+    const pageTitle = document.querySelector("#page-title");
+    pageTitle.textContent = title;
 }

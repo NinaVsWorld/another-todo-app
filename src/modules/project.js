@@ -37,3 +37,11 @@ function deleteAllProjTasks(id) {
         deleteTask(task.id);
     }
 }
+
+export function getProject(id) {
+    const index = allProjects.findIndex(proj=> proj.id == id);
+    if (index > -1) {
+        const project = allProjects[index];
+        return project;
+    }
+}

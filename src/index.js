@@ -1,4 +1,5 @@
 import "./style.css";
-import { showProjForm } from "./modules/projectUIManager.js";
+import { showProjForm, renderProject } from "./modules/projectUIManager.js";
 
 showProjForm();
+renderProject();
