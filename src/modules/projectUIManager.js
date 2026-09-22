@@ -5,22 +5,35 @@ const projectCard = document.querySelector(".project-card");
 const projectList = document.querySelector(".projects-list");
 const container = document.querySelector("html");
 
-export function showProjForm() {
+function showProjForm() {
     container.addEventListener("click", (event) => {
-        if (event.target.className == "add-proj") {
-            projForm.showModal()
-        }
+        const target = event.target.closest(".add-proj");
+        if (target) { projForm.showModal(); }
+    });
+}
 
-        if (event.target.className == "cancel") {
-            projForm.close();
-        }
+function closeProjForm() {
+    container.addEventListener("click", (event) => {
+        const target = event.target.closest(".cancel");
+        if (target) { projForm.close(); }
+    });
+}
 
-        if (event.target.className == "create-project") {
-            registerProject();
+function addProject() {
+    container.addEventListener("click", (event) => {
+        const target = event.target.closest(".create-project");
+        if (target) { 
+            registerProject(); 
             projForm.close();
-            renderProjects();
+            renderProject();
         }
     });
+}
+
+export function projFormActions() {
+    showProjForm();
+    closeProjForm();
+    addProject();
 }
 
 function registerProject() {
@@ -69,9 +82,11 @@ export function renderProject() {
 function clearPage() {
     const pageTitle = document.querySelector("#page-title");
     pageTitle.textContent = "";
+    // clear tasks
 }
 
 function updatePage(title) {
     const pageTitle = document.querySelector("#page-title");
     pageTitle.textContent = title;
+    // load tasks
 }

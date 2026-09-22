@@ -1,5 +1,6 @@
 import "./style.css";
-import { showProjForm, renderProject } from "./modules/projectUIManager.js";
+import { projFormActions } from "./modules/projectUIManager.js";
+import { formActions } from "./modules/taskUIManager.js";
 
-showProjForm();
-renderProject();
+projFormActions();
+formActions();
