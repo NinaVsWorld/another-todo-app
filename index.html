@@ -53,7 +53,7 @@
         <div class="list-container">
             <h2 id="page-title"></h2>
             <div class="class-list"></div>
-            <button class=add-task-button>Add Task</button>
+            <button class=add-task class="add-task-btn">Add Task</button>
         </div>
     </div>
 </body>
@@ -63,7 +63,7 @@
     <form>
         <div class="title">
             <label for="title">Title</label>
-            <input type="text" class="task-title" id="task-title" required placeholder="Task Title">
+            <input type="text" class="task-title" id="task-title" required placeholder="Task Title" required>
         </div>
         <div class="description">
             <label for="description">Description</label>
@@ -71,7 +71,7 @@
         </div>
         <div class="due-date">
             <label for="due-date">Due Date</label>
-            <input type="date" class="due-date" id="due-date" value="YYYY-MM-DD" min="1900-01-01" max="3000-01-01">
+            <input type="date" class="due-date" id="due-date" value="YYYY-MM-DD" min="1900-01-01" max="3000-01-01" required>
         </div>
         <div class="priority">
             <label for="Priority">Priority</label>
