@@ -71,7 +71,7 @@
         </div>
         <div class="due-date">
             <label for="due-date">Due Date</label>
-            <input type="date" class="due-date" id="due-date" value="YYYY-MM-DD" min="1900-01-01" max="3000-01-01" required>
+            <input type="date" class="due-date" id="due-date" value="yyyy-MM-dd" min="1900-01-01" max="3000-01-01" required>
         </div>
         <div class="priority">
             <label for="Priority">Priority</label>
@@ -84,6 +84,7 @@
         <div class="project">
             <label for="inbox">Inbox</label>
             <!--dynamically update the inbox/project options-->
+            <select name="projects" id="projects"></select>
         </div>
         <div class="buttons">
             <button type="button" class="create-task">Create Task</button>
