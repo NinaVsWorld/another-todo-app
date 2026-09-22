@@ -5,35 +5,22 @@ const projectCard = document.querySelector(".project-card");
 const projectList = document.querySelector(".projects-list");
 const container = document.querySelector("html");
 
-function showProjForm() {
+export function projFormActions() {
     container.addEventListener("click", (event) => {
-        const target = event.target.closest(".add-proj");
-        if (target) { projForm.showModal(); }
-    });
-}
+        if (event.target.className == "add-proj") {
+            projForm.showModal()
+        }
 
-function closeProjForm() {
-    container.addEventListener("click", (event) => {
-        const target = event.target.closest(".cancel");
-        if (target) { projForm.close(); }
-    });
-}
-
-function addProject() {
-    container.addEventListener("click", (event) => {
-        const target = event.target.closest(".create-project");
-        if (target) { 
-            registerProject(); 
+        if (event.target.className == "cancel") {
             projForm.close();
-            renderProject();
+        }
+
+        if (event.target.className == "create-project") {
+            registerProject();
+            projForm.close();
+            renderProjects();
         }
     });
-}
-
-export function projFormActions() {
-    showProjForm();
-    closeProjForm();
-    addProject();
 }
 
 function registerProject() {
