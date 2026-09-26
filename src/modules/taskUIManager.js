@@ -44,7 +44,7 @@ export function formActions() {
     createTaskObj();
 }
 
-// update inboxes
+// update inboxes in the form
 function updateProjects() {
     const select = document.querySelector("#projects");
     for (const p of allProjects) {
@@ -71,15 +71,37 @@ function registerTask() {
     const description = taskForm.querySelector("#description");
     const due = taskForm.querySelector("#due-date");
     const priority = taskForm.querySelector("#priority");
+    const inbox = taskForm.querySelector("#projects");
 
-    console.log({ title, description, due, priority }); // delete this
-
-    createTask(title.value, description.value, due.value, priority.value);
+    // get the project id, if a project is selected for the task to live in
+    const inboxID = inbox.selectedOptions[0]?.dataset.id;
+    createTask(title.value, description.value, due.value, priority.value, inboxID);
     clearTaskForm();
 }
 
 // clear task form
 function clearTaskForm() {
-    //taskForm.document.querySelectorAll('input[]', 'textarea').forEach(input => input.value = '');
     document.getElementById("registration-form").reset();
+}
+
+// ** this will be called in load tasks in projectUI **
+export function renderTaskCard(task) {
+    const taskCard = document.querySelector(".task-card");
+    const taskTitle = taskCard.querySelector("#task-item");
+    const taskDate = taskCard.querySelector("#date-text");
+    const taskPriority = taskCard.querySelector("#priority-display");
+
+    taskTitle.textContent = task.title;
+    taskDate.textContent = task.date;
+    if (task.priority == "0") {
+        taskPriority.textContent = "Low";
+    } else if (task.priority == "1") {
+        taskPriority.textContent = "Medium";
+    } else {
+        taskPriority.textContent = "High";
+    }
+
+    // will need to upload the description (or this can be a separate function when the task is expanded)
+    taskCard.dataset.id = task.id;
+    return taskCard;
 }

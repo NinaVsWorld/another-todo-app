@@ -1,4 +1,5 @@
 import { createProject, allProjects, getProject } from "./project.js";
+import { renderTaskCard } from "./taskUIManager.js";
 
 const projForm = document.querySelector(".project-form");
 const projectCard = document.querySelector(".project-card");
@@ -59,9 +60,8 @@ export function renderProject() {
             const projID = target.dataset.id;
             const project = getProject(projID);
             const projTitle = project.title;
-            // update the page title
             clearPage();
-            updatePage(projTitle);
+            updatePageTitle(projTitle); // combine this with rendering the task??
         }
     });
 }
@@ -72,8 +72,11 @@ function clearPage() {
     // clear tasks
 }
 
-function updatePage(title) {
+function updatePageTitle(title) {
     const pageTitle = document.querySelector("#page-title");
     pageTitle.textContent = title;
-    // load tasks
 }
+
+// load tasks
+// loop thru all tasks, append to the page any tasks that have a matching projID
+// this function will be called in renderProject
