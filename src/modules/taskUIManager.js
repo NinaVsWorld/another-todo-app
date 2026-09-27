@@ -3,6 +3,7 @@ import { allTasks, createTask } from "./task.js";
 
 const container = document.querySelector("html");
 const taskForm = document.querySelector(".task-form");
+const taskCard = document.querySelector(".task-card");
 
 function showTaskForm() {
     container.addEventListener("click", (event) => {
@@ -29,11 +30,8 @@ function createTaskObj() {
         const target = event.target.closest(".create-task");
         if (target) {
             registerTask();
-
-            for (const task of allTasks) {
-    console.log(task);
-}
             taskForm.close();
+            clearProjects();
         }
     });
 }
@@ -79,17 +77,16 @@ function registerTask() {
     clearTaskForm();
 }
 
-// clear task form
 function clearTaskForm() {
     document.getElementById("registration-form").reset();
 }
 
 // ** this will be called in load tasks in projectUI **
 export function renderTaskCard(task) {
-    const taskCard = document.querySelector(".task-card");
-    const taskTitle = taskCard.querySelector("#task-item");
-    const taskDate = taskCard.querySelector("#date-text");
-    const taskPriority = taskCard.querySelector("#priority-display");
+    const taskObj = taskCard.cloneNode(true);
+    const taskTitle = taskObj.querySelector("#task-item");
+    const taskDate = taskObj.querySelector("#date-text");
+    const taskPriority = taskObj.querySelector("#priority-display");
 
     taskTitle.textContent = task.title;
     taskDate.textContent = task.date;
@@ -102,6 +99,6 @@ export function renderTaskCard(task) {
     }
 
     // will need to upload the description (or this can be a separate function when the task is expanded)
-    taskCard.dataset.id = task.id;
-    return taskCard;
+    taskObj.dataset.id = task.id;
+    return taskObj;
 }

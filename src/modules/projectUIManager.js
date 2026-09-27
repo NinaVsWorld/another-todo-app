@@ -1,10 +1,13 @@
 import { createProject, allProjects, getProject } from "./project.js";
+import { allTasks } from "./task.js";
 import { renderTaskCard } from "./taskUIManager.js";
 
 const projForm = document.querySelector(".project-form");
 const projectCard = document.querySelector(".project-card");
 const projectList = document.querySelector(".projects-list");
 const container = document.querySelector("html");
+
+let currentProject;
 
 export function projFormActions() {
     container.addEventListener("click", (event) => {
@@ -31,7 +34,7 @@ function registerProject() {
 }
 
 // clear existing projects and re-render
-function renderProjects() {
+function renderProjectsMenu() {
     // clear existing projects
     while (projectList.firstChild) {
         projectList.removeChild(projectList.firstChild);
@@ -49,9 +52,7 @@ function displayProject(proj) {
     projectList.append(project);
 }
 
-// when clicking on each card, wipe the main page
-// update page title
-// and then worry about rendering tasks later (will have to import from taskUImanager??)
+// when clicking on each card, wipe the main page and add all tasks
 export function renderProject() {
     container.addEventListener("click", (event) => {
         const target = event.target.closest(".project-card");
@@ -59,9 +60,11 @@ export function renderProject() {
             // get the target
             const projID = target.dataset.id;
             const project = getProject(projID);
-            const projTitle = project.title;
             clearPage();
-            updatePageTitle(projTitle); // combine this with rendering the task??
+            renderPage(project);
+
+            // track the current project
+            currentProject = project;
         }
     });
 }
@@ -72,11 +75,21 @@ function clearPage() {
     // clear tasks
 }
 
-function updatePageTitle(title) {
-    const pageTitle = document.querySelector("#page-title");
+function renderPage(title, tasksArr) {
+    const page = document.querySelector("#task-list");
     pageTitle.textContent = title;
+    // wipes screen
+    if (page.hasChildNodes) { page.replaceChildren(); }
+    // loops thru taskArr
+    for (const task of tasksArr) {
+        // draws the cards
+        const taskCard = renderTaskCard(task);
+        taskCard.style.display = "flex";
+        page.appendChild(taskCard);
+    }
 }
 
-// load tasks
-// loop thru all tasks, append to the page any tasks that have a matching projID
-// this function will be called in renderProject
+// if the add-task button is clicked within a project
+// either, re-render the task list or just append to the existing list
+// easier to just re-render (maybe no, append?), once create is clicked
+// NEED a currentProject variable - otherwise how will i know to re-render the "same" page?
