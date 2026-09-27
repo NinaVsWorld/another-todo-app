@@ -1,5 +1,5 @@
 import { allProjects } from "./project.js";
-import { allTasks, createTask } from "./task.js";
+import { createTask } from "./task.js";
 
 const container = document.querySelector("html");
 const taskForm = document.querySelector(".task-form");

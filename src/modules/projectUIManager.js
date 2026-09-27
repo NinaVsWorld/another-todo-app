@@ -1,13 +1,15 @@
 import { createProject, allProjects, getProject } from "./project.js";
 import { allTasks } from "./task.js";
 import { renderTaskCard } from "./taskUIManager.js";
+import { parseISO, isToday, isThisISOWeek, addDays, isWithinInterval, startOfTomorrow } from "date-fns";
 
 const projForm = document.querySelector(".project-form");
 const projectCard = document.querySelector(".project-card");
 const projectList = document.querySelector(".projects-list");
 const container = document.querySelector("html");
 
-let currentProject;
+// for both projects and inboxes
+let currentInboxID;
 
 function projFormActions() {
     container.addEventListener("click", (event) => {
@@ -15,7 +17,7 @@ function projFormActions() {
 
         if (event.target.closest(".cancel")) { projForm.close(); }
 
-        if (event.target.closest("create-project")) {
+        if (event.target.closest(".create-project")) {
             registerProject();
             projForm.close();
             renderProjectsMenu();
@@ -61,21 +63,55 @@ function renderPage(title, tasksArr) {
 
 // Data filter functions - inboxes
 function loadTodayTasks() {
+    const todaysTasks = allTasks.filter(task => {
+        const dueDate = task.date;
+        const result = parseISO(dueDate);
+        if (isToday(result) && !task.completed) {
+            return task;
+        };
+    });
 
+    renderPage("Today", todaysTasks);
+    currentInboxID = document.getElementById("today").dataset.id;
 }
 
-function loadUpcomingTasks() {
+function loadThisWeek() {
+    const thisWeeksTasks = allTasks.filter(task => {
+        const dueDate = task.date;
+        const result = parseISO(dueDate);
+        if (isThisISOWeek(result) && !task.completed) {
+            return task;
+        }
+    });
 
+    renderPage("This Week", thisWeeksTasks);
+    currentInboxID = document.getElementById("this-week").dataset.id;
+}
+
+function loadNextWeek() {
+    const nextWeeksTasks = allTasks.filter(task => {
+        const dueDate = task.date;
+        const result = parseISO(dueDate);
+        const week = addDays(startOfTomorrow(), 7);
+        if (isWithinInterval(result, {start: startOfTomorrow(), end: week}) && !task.completed) {
+            return task;
+        }
+    });
+
+    renderPage("Next Week", nextWeeksTasks);
+    currentInboxID = document.getElementById("next-week").dataset.id;
 }
 
 function loadCompletedTasks() {
     const completedTasks = allTasks.filter(task => task.completed === true);
     renderPage("Completed", completedTasks);
+    currentInboxID = document.getElementById("completed").dataset.id;
 }
 
 function loadInbox() {
     const inboxTasks = allTasks.filter(task => task.projectID === undefined && task.completed === false);
     renderPage("Inbox", inboxTasks);
+    currentInboxID = document.getElementById("inbox").dataset.id;
 }
 
 // Data filter functions - projects
@@ -84,7 +120,7 @@ function loadProject(projID) {
     const projectTitle = project.title;
     const projectTasks = allTasks.filter(task => task.projectID === projID && task.completed === false);
     renderPage(projectTitle, projectTasks);
-    currentProject = project;
+    currentInboxID = projID;
 }
 
 // event listeners - side bar
@@ -103,7 +139,9 @@ function handleInboxesClick() {
     container.addEventListener("click", (event) => {
         if (event.target.closest("#today")) { loadTodayTasks(); }
 
-        if (event.target.closest("#upcoming")) { loadUpcomingTasks(); }
+        if (event.target.closest("#this-week")) { loadThisWeek(); }
+
+        if (event.target.closest("#next-week")) { loadNextWeek(); }
 
         if (event.target.closest("#inbox")) { loadInbox(); }
 
