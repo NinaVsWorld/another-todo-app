@@ -9,17 +9,13 @@ const container = document.querySelector("html");
 
 let currentProject;
 
-export function projFormActions() {
+function projFormActions() {
     container.addEventListener("click", (event) => {
-        if (event.target.className === "add-proj") {
-            projForm.showModal()
-        }
+        if (event.target.closest(".add-proj")) { projForm.showModal(); }
 
-        if (event.target.className === "cancel") {
-            projForm.close();
-        }
+        if (event.target.closest(".cancel")) { projForm.close(); }
 
-        if (event.target.className === "create-project") {
+        if (event.target.closest("create-project")) {
             registerProject();
             projForm.close();
             renderProjectsMenu();
@@ -33,14 +29,9 @@ function registerProject() {
     projTitle.value = "";
 }
 
-// clear existing projects and re-render
+// clear existing projects and display projects in sidebar
 function renderProjectsMenu() {
-    // clear existing projects
-    while (projectList.firstChild) {
-        projectList.removeChild(projectList.firstChild);
-    }
-
-    // display projects in the sidebar
+    projectList.replaceChildren();
     allProjects.forEach(p => displayProject(p));
 }
 
@@ -89,7 +80,7 @@ function loadInbox() {
 
 // Data filter functions - projects
 function loadProject(projID) {
-    const project = getProject(id);
+    const project = getProject(projID);
     const projectTitle = project.title;
     const projectTasks = allTasks.filter(task => task.projectID === projID && task.completed === false);
     renderPage(projectTitle, projectTasks);
@@ -118,6 +109,13 @@ function handleInboxesClick() {
 
         if (event.target.closest("#completed")) { loadCompletedTasks(); }
     });
+}
+
+// master event listener function
+export function init() {
+    projFormActions();
+    handleInboxesClick();
+    handleProjectClicks();
 }
 
 // if the add-task button is clicked within a project
