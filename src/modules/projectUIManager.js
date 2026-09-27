@@ -11,18 +11,18 @@ let currentProject;
 
 export function projFormActions() {
     container.addEventListener("click", (event) => {
-        if (event.target.className == "add-proj") {
+        if (event.target.className === "add-proj") {
             projForm.showModal()
         }
 
-        if (event.target.className == "cancel") {
+        if (event.target.className === "cancel") {
             projForm.close();
         }
 
-        if (event.target.className == "create-project") {
+        if (event.target.className === "create-project") {
             registerProject();
             projForm.close();
-            renderProjects();
+            renderProjectsMenu();
         }
     });
 }
@@ -40,7 +40,7 @@ function renderProjectsMenu() {
         projectList.removeChild(projectList.firstChild);
     }
 
-    // render projects
+    // display projects in the sidebar
     allProjects.forEach(p => displayProject(p));
 }
 
@@ -52,34 +52,13 @@ function displayProject(proj) {
     projectList.append(project);
 }
 
-// when clicking on each card, wipe the main page and add all tasks
-export function renderProject() {
-    container.addEventListener("click", (event) => {
-        const target = event.target.closest(".project-card");
-        if (target) {
-            // get the target
-            const projID = target.dataset.id;
-            const project = getProject(projID);
-            clearPage();
-            renderPage(project);
-
-            // track the current project
-            currentProject = project;
-        }
-    });
-}
-
-function clearPage() {
-    const pageTitle = document.querySelector("#page-title");
-    pageTitle.textContent = "";
-    // clear tasks
-}
-
+// Page rendering functions
 function renderPage(title, tasksArr) {
     const page = document.querySelector("#task-list");
+    const pageTitle = document.querySelector("#page-title");
     pageTitle.textContent = title;
     // wipes screen
-    if (page.hasChildNodes) { page.replaceChildren(); }
+    page.replaceChildren();
     // loops thru taskArr
     for (const task of tasksArr) {
         // draws the cards
@@ -87,6 +66,58 @@ function renderPage(title, tasksArr) {
         taskCard.style.display = "flex";
         page.appendChild(taskCard);
     }
+}
+
+// Data filter functions - inboxes
+function loadTodayTasks() {
+
+}
+
+function loadUpcomingTasks() {
+
+}
+
+function loadCompletedTasks() {
+    const completedTasks = allTasks.filter(task => task.completed === true);
+    renderPage("Completed", completedTasks);
+}
+
+function loadInbox() {
+    const inboxTasks = allTasks.filter(task => task.projectID === undefined && task.completed === false);
+    renderPage("Inbox", inboxTasks);
+}
+
+// Data filter functions - projects
+function loadProject(projID) {
+    const project = getProject(id);
+    const projectTitle = project.title;
+    const projectTasks = allTasks.filter(task => task.projectID === projID && task.completed === false);
+    renderPage(projectTitle, projectTasks);
+    currentProject = project;
+}
+
+// event listeners - side bar
+function handleProjectClicks() {
+    container.addEventListener("click", (event) => {
+        const target = event.target.closest(".project-card");
+        if (target) {
+            const projectID = target.dataset.id;
+            loadProject(projectID);
+        }
+    });
+}
+
+// event listeners - handle inboxes
+function handleInboxesClick() {
+    container.addEventListener("click", (event) => {
+        if (event.target.closest("#today")) { loadTodayTasks(); }
+
+        if (event.target.closest("#upcoming")) { loadUpcomingTasks(); }
+
+        if (event.target.closest("#inbox")) { loadInbox(); }
+
+        if (event.target.closest("#completed")) { loadCompletedTasks(); }
+    });
 }
 
 // if the add-task button is clicked within a project

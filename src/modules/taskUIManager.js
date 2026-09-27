@@ -90,9 +90,9 @@ export function renderTaskCard(task) {
 
     taskTitle.textContent = task.title;
     taskDate.textContent = task.date;
-    if (task.priority == "0") {
+    if (task.priority === "0") {
         taskPriority.textContent = "Low";
-    } else if (task.priority == "1") {
+    } else if (task.priority === "1") {
         taskPriority.textContent = "Medium";
     } else {
         taskPriority.textContent = "High";
