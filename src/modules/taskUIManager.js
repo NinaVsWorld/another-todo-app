@@ -1,45 +1,31 @@
 import { allProjects } from "./project.js";
+import { resetCurrentView } from "./projectUIManager.js";
+import { getCurrentView } from "./state.js";
 import { createTask } from "./task.js";
 
 const container = document.querySelector("html");
 const taskForm = document.querySelector(".task-form");
 const taskCard = document.querySelector(".task-card");
-
-function showTaskForm() {
+ 
+export function formActions() {
     container.addEventListener("click", (event) => {
-        const target = event.target.closest(".add-task");
-        if (target) {
+        if (event.target.closest(".add-task")) {
             taskForm.showModal();
             updateProjects();
         }
-    });
-}
 
-function closeTaskForm() {
-    container.addEventListener("click", (event) => {
-        const target = event.target.closest(".cancel");
-        if (target) {
+        if (event.target.closest(".cancel")) {
             taskForm.close();
             clearProjects();
         }
-    });
-}
 
-function createTaskObj() {
-    container.addEventListener("click", (event) => {
-        const target = event.target.closest(".create-task");
-        if (target) {
+        if (event.target.closest(".create-task")) {
+            taskForm.close();
             registerTask();
-            taskForm.close();
             clearProjects();
+            resetCurrentView();
         }
     });
-}
- 
-export function formActions() {
-    showTaskForm();
-    closeTaskForm();
-    createTaskObj();
 }
 
 // update inboxes in the form

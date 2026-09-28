@@ -1,15 +1,13 @@
 import { createProject, allProjects, getProject } from "./project.js";
 import { allTasks } from "./task.js";
 import { renderTaskCard } from "./taskUIManager.js";
-import { parseISO, isToday, isThisISOWeek, addDays, isWithinInterval, startOfTomorrow } from "date-fns";
+import { getCurrentView, setCurrentView } from "./state.js";
+import { parseISO, isToday, isThisISOWeek, addDays, isWithinInterval, startOfToday, isAfter } from "date-fns";
 
 const projForm = document.querySelector(".project-form");
 const projectCard = document.querySelector(".project-card");
 const projectList = document.querySelector(".projects-list");
 const container = document.querySelector("html");
-
-// for both projects and inboxes
-let currentInboxID;
 
 function projFormActions() {
     container.addEventListener("click", (event) => {
@@ -72,7 +70,7 @@ function loadTodayTasks() {
     });
 
     renderPage("Today", todaysTasks);
-    currentInboxID = document.getElementById("today").dataset.id;
+    setCurrentView(document.getElementById("today").dataset.id);
 }
 
 function loadThisWeek() {
@@ -85,33 +83,33 @@ function loadThisWeek() {
     });
 
     renderPage("This Week", thisWeeksTasks);
-    currentInboxID = document.getElementById("this-week").dataset.id;
+    setCurrentView(document.getElementById("this-week").dataset.id);;
 }
 
 function loadNextWeek() {
     const nextWeeksTasks = allTasks.filter(task => {
         const dueDate = task.date;
         const result = parseISO(dueDate);
-        const week = addDays(startOfTomorrow(), 7);
-        if (isWithinInterval(result, {start: startOfTomorrow(), end: week}) && !task.completed) {
+        const week = addDays(startOfToday(), 7);
+        if (isAfter(result, week) && !task.completed) {
             return task;
         }
     });
 
     renderPage("Next Week", nextWeeksTasks);
-    currentInboxID = document.getElementById("next-week").dataset.id;
+    setCurrentView(document.getElementById("next-week").dataset.id);
 }
 
 function loadCompletedTasks() {
     const completedTasks = allTasks.filter(task => task.completed === true);
     renderPage("Completed", completedTasks);
-    currentInboxID = document.getElementById("completed").dataset.id;
+    setCurrentView(document.getElementById("completed").dataset.id);
 }
 
 function loadInbox() {
     const inboxTasks = allTasks.filter(task => task.projectID === undefined && task.completed === false);
     renderPage("Inbox", inboxTasks);
-    currentInboxID = document.getElementById("inbox").dataset.id;
+    setCurrentView(document.getElementById("inbox").dataset.id);
 }
 
 // Data filter functions - projects
@@ -120,7 +118,7 @@ function loadProject(projID) {
     const projectTitle = project.title;
     const projectTasks = allTasks.filter(task => task.projectID === projID && task.completed === false);
     renderPage(projectTitle, projectTasks);
-    currentInboxID = projID;
+    setCurrentView(projID);
 }
 
 // event listeners - side bar
@@ -149,14 +147,35 @@ function handleInboxesClick() {
     });
 }
 
+// reload current view when adding a new task and if that task happens to belong to our current view
+export function resetCurrentView() {
+    const currentViewID = getCurrentView();
+    switch (currentViewID) {
+        case "today":
+            loadTodayTasks();
+            break;
+        case "this-week":
+            loadThisWeek();
+            break;
+        case "next-week":
+            loadNextWeek();
+            break;
+        case "inbox":
+            loadInbox();
+            break;
+        case "completed":
+            loadCompletedTasks();
+            break;
+        default:
+            if (currentViewID) {
+                loadProject(currentViewID);
+            }
+    }
+}
+
 // master event listener function
 export function init() {
     projFormActions();
     handleInboxesClick();
     handleProjectClicks();
 }
-
-// if the add-task button is clicked within a project
-// either, re-render the task list or just append to the existing list
-// easier to just re-render (maybe no, append?), once create is clicked
-// NEED a currentProject variable - otherwise how will i know to re-render the "same" page?
