@@ -2,7 +2,7 @@ import { createProject, allProjects, getProject } from "./project.js";
 import { allTasks } from "./task.js";
 import { renderTaskCard } from "./taskUIManager.js";
 import { getCurrentView, setCurrentView } from "./state.js";
-import { parseISO, isToday, isThisISOWeek, addDays, isWithinInterval, startOfToday, isAfter } from "date-fns";
+import { parseISO, isToday, isThisISOWeek, addDays, startOfToday, isAfter } from "date-fns";
 
 const projForm = document.querySelector(".project-form");
 const projectCard = document.querySelector(".project-card");
@@ -151,19 +151,19 @@ function handleInboxesClick() {
 export function resetCurrentView() {
     const currentViewID = getCurrentView();
     switch (currentViewID) {
-        case "today":
+        case document.getElementById("#today").dataset.id:
             loadTodayTasks();
             break;
-        case "this-week":
+        case document.getElementById("#this-week").dataset.id:
             loadThisWeek();
             break;
-        case "next-week":
+        case document.getElementById("#next-week").dataset.id:
             loadNextWeek();
             break;
-        case "inbox":
+        case document.getElementById("#inbox").dataset.id:
             loadInbox();
             break;
-        case "completed":
+        case document.getElementById("#completed").dataset.id:
             loadCompletedTasks();
             break;
         default:
