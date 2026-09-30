@@ -1,4 +1,4 @@
-import { createProject, allProjects, getProject } from "./project.js";
+import { createProject, allProjects, getProject, deleteProject } from "./project.js";
 import { allTasks } from "./task.js";
 import { renderTaskCard } from "./taskUIManager.js";
 import { getCurrentView, setCurrentView } from "./state.js";
@@ -147,6 +147,26 @@ function handleInboxesClick() {
     });
 }
 
+// when a project is deleted, need to reset/set currentViewID to something else
+// when a project is deleted, need to reset the currentView to whatever the new currentViewID is
+// event listeners - delete projects
+function handleProjectDeletion() {
+    container.addEventListener("click", (event) => {
+        console.log(event.target);
+        const delBtn = event.target.closest("#proj-delete");
+        if (!delBtn) { return; }
+        
+        const project = event.target.closest(".project-card");
+        if (!project) { return; }
+
+        const projID = project.dataset.id;
+        deleteProject(projID);
+        setCurrentView("inbox");
+        renderProjectsMenu();
+        resetCurrentView();
+    });
+}
+
 // reload current view when adding a new task and if that task happens to belong to our current view
 export function resetCurrentView() {
     const currentViewID = getCurrentView();
@@ -178,4 +198,5 @@ export function init() {
     projFormActions();
     handleInboxesClick();
     handleProjectClicks();
+    handleProjectDeletion();
 }
