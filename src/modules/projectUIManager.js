@@ -151,19 +151,19 @@ function handleInboxesClick() {
 export function resetCurrentView() {
     const currentViewID = getCurrentView();
     switch (currentViewID) {
-        case document.getElementById("#today").dataset.id:
+        case "today":
             loadTodayTasks();
             break;
-        case document.getElementById("#this-week").dataset.id:
+        case "this-week":
             loadThisWeek();
             break;
-        case document.getElementById("#next-week").dataset.id:
+        case "next-week":
             loadNextWeek();
             break;
-        case document.getElementById("#inbox").dataset.id:
+        case "inbox":
             loadInbox();
             break;
-        case document.getElementById("#completed").dataset.id:
+        case "completed":
             loadCompletedTasks();
             break;
         default:

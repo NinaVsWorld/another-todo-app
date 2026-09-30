@@ -1,7 +1,6 @@
 import { allProjects } from "./project.js";
 import { resetCurrentView } from "./projectUIManager.js";
-import { getCurrentView } from "./state.js";
-import { createTask } from "./task.js";
+import { createTask, deleteTask } from "./task.js";
 
 const container = document.querySelector("html");
 const taskForm = document.querySelector(".task-form");
@@ -87,4 +86,23 @@ export function renderTaskCard(task) {
     // will need to upload the description (or this can be a separate function when the task is expanded)
     taskObj.dataset.id = task.id;
     return taskObj;
+}
+
+function handleTaskDeletion() {
+    container.addEventListener("click", (event) => {
+        const delBtn = event.target.closest("#delete");
+        if (!delBtn) { return; }
+
+        const task = event.target.closest(".task-card");
+        if (!task) { return; }
+        
+        const taskID = task.dataset.id;
+        deleteTask(taskID);
+        resetCurrentView();
+    });
+}
+
+export function taskUIInit() {
+    formActions();
+    handleTaskDeletion();
 }
