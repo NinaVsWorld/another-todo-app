@@ -63,7 +63,7 @@
 
 <!--task form-->
 <dialog class="task-form">
-    <form id="registration-form">
+    <form method="dialog" id="registration-form">
         <div class="title">
             <label for="title">Title</label>
             <input type="text" class="task-title" id="task-title" required placeholder="Task Title" required>
@@ -90,22 +90,36 @@
             <select name="projects" id="projects"></select>
         </div>
         <div class="buttons">
-            <button type="button" class="create-task">Create Task</button>
-            <button type="button" class="cancel">Cancel</button>
+            <button type="submit" value="confirm" class="create-task">Create Task</button>
+            <button type="submit" value="cancel" formnovalidate class="cancel">Cancel</button>
         </div>
     </form>
 </dialog>
 
 <!--project form-->
 <dialog class="project-form">
-    <form>
+    <form method="dialog">
         <div class="title">
             <label for="title">Title</label>
             <input type="text" class="project-title" id="project-title" required placeholder="Project title">
         </div>
         <div class="buttons">
-            <button type="button" class="create-project">Create Project</button>
-            <button type="button" class="cancel">Cancel</button>
+            <button type="submit" value="confirm" class="create-project">Create Project</button>
+            <button type="submit" formnovalidate value="cancel" class="cancel">Cancel</button>
+        </div>
+    </form>
+</dialog>
+
+<!--edit project menu-->
+<dialog id="edit-project-form">
+    <form method="dialog">
+        <div class="title">
+            <label for="title">Title</label>
+            <input type="text" class="project-title" id="edited-project-title" required>
+        </div>
+        <div class="buttons">
+            <button type="submit" value="confirm" id="edit">Edit</button>
+            <button type="submit" formnovalidate value="cancel" id="cancel-edit">Cancel</button>
         </div>
     </form>
 </dialog>
@@ -133,17 +147,6 @@
         <div class="card-title">project</div>
     </div>
     <div id="proj-delete">DEL</div>
-</div>
-
-<!--options menu for task/project-->
-<div class="options-menu">
-    <div class="edit">
-        <!--svg for edit-->
-        Edit Task
-    </div>
-    <div class="delete">
-        <!--svg for delete-->
-        Delete
-    </div>
+    <div id="edit-project">EDIT</div>
 </div>
 </html>

@@ -5,19 +5,25 @@ import { getCurrentView, setCurrentView } from "./state.js";
 import { parseISO, isToday, isThisISOWeek, addDays, startOfToday, isAfter } from "date-fns";
 
 const projForm = document.querySelector(".project-form");
+const projEditForm = document.getElementById("edit-project-form");
 const projectCard = document.querySelector(".project-card");
 const projectList = document.querySelector(".projects-list");
 const container = document.querySelector("html");
 
-function projFormActions() {
+// separate this out and refactor like the edit project form function
+function openAddProject() {
     container.addEventListener("click", (event) => {
-        if (event.target.closest(".add-proj")) { projForm.showModal(); }
+        const addProjBtn = event.target.closest(".add-proj");
+        if (addProjBtn) { projForm.showModal(); }
+    });
+}
 
-        if (event.target.closest(".cancel")) { projForm.close(); }
+function handleProjFormActions() {
+    projForm.addEventListener("close", () => {
+        const action = projForm.returnValue;
 
-        if (event.target.closest(".create-project")) {
+        if (action == "confirm") {
             registerProject();
-            projForm.close();
             renderProjectsMenu();
         }
     });
@@ -152,7 +158,6 @@ function handleInboxesClick() {
 // event listeners - delete projects
 function handleProjectDeletion() {
     container.addEventListener("click", (event) => {
-        console.log(event.target);
         const delBtn = event.target.closest("#proj-delete");
         if (!delBtn) { return; }
         
@@ -164,6 +169,45 @@ function handleProjectDeletion() {
         setCurrentView("inbox");
         renderProjectsMenu();
         resetCurrentView();
+    });
+}
+
+// edit project
+function editProject(id, name) {
+    const project = getProject(id);
+    project.title = name;
+}
+
+function openProjectEdit() {
+    container.addEventListener("click", (event) => {
+        const projectCard = event.target.closest(".project-card");
+        if (!projectCard) return;
+
+        const editBtn = event.target.closest("#edit-project");
+        if (editBtn) {
+            const input = projEditForm.querySelector("#edited-project-title");
+            const id = projectCard.dataset.id;
+
+            projEditForm.dataset.activeProjID = id;
+
+            input.value = getProject(id).title;
+            projEditForm.showModal();
+        }
+    });
+}
+
+function handleProjectEdit() {
+    projEditForm.addEventListener("close", () => {
+        const action = projEditForm.returnValue;
+
+        if (action == "confirm") {
+            const input = projEditForm.querySelector("#edited-project-title");
+            const newTitle = input.value;
+            const projID = projEditForm.dataset.activeProjID;
+            editProject(projID, newTitle);
+            renderProjectsMenu();
+            resetCurrentView();
+        }
     });
 }
 
@@ -195,8 +239,11 @@ export function resetCurrentView() {
 
 // master event listener function
 export function init() {
-    projFormActions();
+    openAddProject();
+    handleProjFormActions();
     handleInboxesClick();
     handleProjectClicks();
     handleProjectDeletion();
+    openProjectEdit();
+    handleProjectEdit();
 }

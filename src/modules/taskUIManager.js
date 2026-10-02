@@ -5,24 +5,27 @@ import { createTask, deleteTask } from "./task.js";
 const container = document.querySelector("html");
 const taskForm = document.querySelector(".task-form");
 const taskCard = document.querySelector(".task-card");
- 
-export function formActions() {
+
+// separate this out and use method=dialog
+function openAddTask() {
     container.addEventListener("click", (event) => {
-        if (event.target.closest(".add-task")) {
+        const addTaskBtn = event.target.closest(".add-task");
+        if (addTaskBtn) {
             taskForm.showModal();
             updateProjects();
         }
+    });
+}
 
-        if (event.target.closest(".cancel")) {
-            taskForm.close();
-            clearProjects();
-        }
-
-        if (event.target.closest(".create-task")) {
-            taskForm.close();
+function handleTaskFormActions() {
+    taskForm.addEventListener("close", () => {
+        const action = taskForm.returnValue;
+        if (action == "confirm") {
             registerTask();
             clearProjects();
             resetCurrentView();
+        } else {
+            clearProjects();
         }
     });
 }
@@ -95,7 +98,7 @@ function handleTaskDeletion() {
 
         const task = event.target.closest(".task-card");
         if (!task) { return; }
-        
+
         const taskID = task.dataset.id;
         deleteTask(taskID);
         resetCurrentView();
@@ -103,6 +106,7 @@ function handleTaskDeletion() {
 }
 
 export function taskUIInit() {
-    formActions();
+    openAddTask();
+    handleTaskFormActions();
     handleTaskDeletion();
 }
