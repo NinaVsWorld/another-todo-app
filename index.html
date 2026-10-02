@@ -110,6 +110,20 @@
     </form>
 </dialog>
 
+<!--edit project menu-->
+<dialog id="edit-project-form">
+    <form method="dialog">
+        <div class="title">
+            <label for="title">Title</label>
+            <input type="text" class="project-title" id="edited-project-title">
+        </div>
+        <div class="buttons">
+            <button type="submit" value="confirm" id="edit">Edit</button>
+            <button type="submit" value="cancel" id="cancel-edit">Cancel</button>
+        </div>
+    </form>
+</dialog>
+
 <!--task card-->
 <div class="task-card">
     <div class="radio-button">
@@ -133,17 +147,6 @@
         <div class="card-title">project</div>
     </div>
     <div id="proj-delete">DEL</div>
-</div>
-
-<!--options menu for task/project-->
-<div class="options-menu">
-    <div class="edit">
-        <!--svg for edit-->
-        Edit Task
-    </div>
-    <div class="delete">
-        <!--svg for delete-->
-        Delete
-    </div>
+    <div id="edit-project">EDIT</div>
 </div>
 </html>
