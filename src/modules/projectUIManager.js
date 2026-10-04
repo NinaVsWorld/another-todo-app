@@ -113,7 +113,7 @@ function loadCompletedTasks() {
 }
 
 function loadInbox() {
-    const inboxTasks = allTasks.filter(task => task.projectID === undefined && task.completed === false);
+    const inboxTasks = allTasks.filter(task => task.projectID === "inbox" && task.completed === false);
     renderPage("Inbox", inboxTasks);
     setCurrentView(document.getElementById("inbox").dataset.id);
 }

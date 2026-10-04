@@ -1,5 +1,6 @@
-import { allProjects, getProject } from "./project.js";
+import { allProjects } from "./project.js";
 import { resetCurrentView } from "./projectUIManager.js";
+import { getCurrentView } from "./state.js";
 import { createTask, deleteTask, editTask, getTask } from "./task.js";
 
 const container = document.querySelector("html");
@@ -15,6 +16,9 @@ function openAddTask() {
             taskForm.showModal();
             const taskFormSelect = taskForm.querySelector("#projects");
             updateProjects(taskFormSelect);
+            
+            // defaults the form inbox to whichever project we are currently in
+            taskFormSelect.value = getCurrentView();
         }
     });
 }
@@ -34,18 +38,18 @@ function handleTaskFormActions() {
 }
 
 function updateProjects(currentFormSelect) {
+    // the default "inbox"
+    const defaultInbox = new Option("Inbox", "inbox");
+    currentFormSelect.add(defaultInbox);
+
     for (const p of allProjects) {
-        let option = document.createElement("option");
-        option.value = p.title;
-        option.textContent = p.title;
-        option.dataset.id = p.id;
-        currentFormSelect.appendChild(option);
+        const option = new Option(p.title, p.id);
+        currentFormSelect.add(option);
     }
 }
 
 // clear inboxes - will need to fix to have 'Inbox' be persistent??
 function clearProjects(currentFormSelect) {
-    //const select = document.querySelector("#projects");
     if (currentFormSelect.hasChildNodes()) {
         currentFormSelect.replaceChildren();
     }
@@ -61,7 +65,7 @@ function registerTask() {
     const inbox = taskForm.querySelector("#projects");
 
     // get the project id, if a project is selected for the task to live in
-    const inboxID = inbox.selectedOptions[0]?.dataset.id;
+    const inboxID = inbox.selectedOptions[0].value;
     createTask(title.value, description.value, due.value, priority.value, inboxID);
     clearTaskForm();
 }
@@ -129,10 +133,7 @@ function openTaskEdit() {
             taskDescription.value = task.description;
             taskDueDate.value = task.date;
             taskPriority.value = task.priority;
-
-            // set the current project
-            /* const project = getProject(task.projectID);
-            taskCurrentInbox.value = project.value; */
+            taskCurrentInbox.value = task.projectID;
 
             taskEditForm.showModal();
         }
@@ -155,11 +156,10 @@ function handleTaskEdit() {
             const newDescription = taskDescription.value;
             const newDueDate = taskDueDate.value;
             const newPriority = taskPriority.value;
-            //const newProject = taskCurrentInbox.dataset.id;
+            const newProject = taskCurrentInbox.value;
             const taskID = taskEditForm.dataset.activeTaskID;
             
-            editTask(taskID, newTitle, newDescription, newDueDate, newPriority);
-
+            editTask(taskID, newTitle, newDescription, newDueDate, newPriority, newProject);
             clearProjects(taskCurrentInbox);
             resetCurrentView();
         }
