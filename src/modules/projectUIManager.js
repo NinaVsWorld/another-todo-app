@@ -1,4 +1,4 @@
-import { createProject, allProjects, getProject, deleteProject } from "./project.js";
+import { createProject, allProjects, getProject, deleteProject, editProject } from "./project.js";
 import { allTasks } from "./task.js";
 import { renderTaskCard } from "./taskUIManager.js";
 import { getCurrentView, setCurrentView } from "./state.js";
@@ -92,7 +92,7 @@ function loadThisWeek() {
     setCurrentView(document.getElementById("this-week").dataset.id);;
 }
 
-function loadNextWeek() {
+function loadNextWeek() { // this is still problematic
     const nextWeeksTasks = allTasks.filter(task => {
         const dueDate = task.date;
         const result = parseISO(dueDate);
@@ -172,12 +172,6 @@ function handleProjectDeletion() {
     });
 }
 
-// edit project
-function editProject(id, name) {
-    const project = getProject(id);
-    project.title = name;
-}
-
 function openProjectEdit() {
     container.addEventListener("click", (event) => {
         const projectCard = event.target.closest(".project-card");
@@ -200,7 +194,7 @@ function handleProjectEdit() {
     projEditForm.addEventListener("close", () => {
         const action = projEditForm.returnValue;
 
-        if (action == "confirm") {
+        if (action === "confirm") {
             const input = projEditForm.querySelector("#edited-project-title");
             const newTitle = input.value;
             const projID = projEditForm.dataset.activeProjID;

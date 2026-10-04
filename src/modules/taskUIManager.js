@@ -1,9 +1,10 @@
-import { allProjects } from "./project.js";
+import { allProjects, getProject } from "./project.js";
 import { resetCurrentView } from "./projectUIManager.js";
-import { createTask, deleteTask } from "./task.js";
+import { createTask, deleteTask, editTask, getTask } from "./task.js";
 
 const container = document.querySelector("html");
 const taskForm = document.querySelector(".task-form");
+const taskEditForm = document.getElementById("edit-task-form");
 const taskCard = document.querySelector(".task-card");
 
 // separate this out and use method=dialog
@@ -12,7 +13,8 @@ function openAddTask() {
         const addTaskBtn = event.target.closest(".add-task");
         if (addTaskBtn) {
             taskForm.showModal();
-            updateProjects();
+            const taskFormSelect = taskForm.querySelector("#projects");
+            updateProjects(taskFormSelect);
         }
     });
 }
@@ -20,33 +22,32 @@ function openAddTask() {
 function handleTaskFormActions() {
     taskForm.addEventListener("close", () => {
         const action = taskForm.returnValue;
+        const taskFormSelect = taskForm.querySelector("#projects");
         if (action == "confirm") {
             registerTask();
-            clearProjects();
+            clearProjects(taskFormSelect);
             resetCurrentView();
         } else {
-            clearProjects();
+            clearProjects(taskFormSelect);
         }
     });
 }
 
-// update inboxes in the form
-function updateProjects() {
-    const select = document.querySelector("#projects");
+function updateProjects(currentFormSelect) {
     for (const p of allProjects) {
         let option = document.createElement("option");
         option.value = p.title;
         option.textContent = p.title;
         option.dataset.id = p.id;
-        select.appendChild(option);
+        currentFormSelect.appendChild(option);
     }
 }
 
 // clear inboxes - will need to fix to have 'Inbox' be persistent??
-function clearProjects() {
-    const select = document.querySelector("#projects");
-    if (select.hasChildNodes()) {
-        select.replaceChildren();
+function clearProjects(currentFormSelect) {
+    //const select = document.querySelector("#projects");
+    if (currentFormSelect.hasChildNodes()) {
+        currentFormSelect.replaceChildren();
     }
 }
 
@@ -105,8 +106,70 @@ function handleTaskDeletion() {
     });
 }
 
+// open task edit
+function openTaskEdit() {
+    container.addEventListener("click", (event) => {
+        const taskCard = event.target.closest(".task-card");
+        if (!taskCard) return;
+
+        const editBtn = event.target.closest("#edit-task");
+        if (editBtn) {
+            const id = taskCard.dataset.id;
+            taskEditForm.dataset.activeTaskID = id;
+            const task = getTask(id);
+            const taskTitle = taskEditForm.querySelector("#edit-task-title");
+            const taskDescription = taskEditForm.querySelector("#edit-description");
+            const taskDueDate = taskEditForm.querySelector("#edit-due-date");
+            const taskPriority = taskEditForm.querySelector("#edit-priority");
+            const taskCurrentInbox = taskEditForm.querySelector("#edit-projects");
+            updateProjects(taskCurrentInbox);
+
+            // populate the form fields
+            taskTitle.value = task.title;
+            taskDescription.value = task.description;
+            taskDueDate.value = task.date;
+            taskPriority.value = task.priority;
+
+            // set the current project
+            /* const project = getProject(task.projectID);
+            taskCurrentInbox.value = project.value; */
+
+            taskEditForm.showModal();
+        }
+    });
+}
+
+function handleTaskEdit() {
+    taskEditForm.addEventListener("close", () => {
+        const action = taskEditForm.returnValue;
+
+        if (action === "confirm") {
+            // parse form inputs back into task
+            const taskTitle = taskEditForm.querySelector("#edit-task-title");
+            const taskDescription = taskEditForm.querySelector("#edit-description");
+            const taskDueDate = taskEditForm.querySelector("#edit-due-date");
+            const taskPriority = taskEditForm.querySelector("#edit-priority");
+            const taskCurrentInbox = taskEditForm.querySelector("#edit-projects");
+
+            const newTitle = taskTitle.value;
+            const newDescription = taskDescription.value;
+            const newDueDate = taskDueDate.value;
+            const newPriority = taskPriority.value;
+            //const newProject = taskCurrentInbox.dataset.id;
+            const taskID = taskEditForm.dataset.activeTaskID;
+            
+            editTask(taskID, newTitle, newDescription, newDueDate, newPriority);
+
+            clearProjects(taskCurrentInbox);
+            resetCurrentView();
+        }
+    });
+}
+
 export function taskUIInit() {
     openAddTask();
+    openTaskEdit();
     handleTaskFormActions();
     handleTaskDeletion();
+    handleTaskEdit();
 }

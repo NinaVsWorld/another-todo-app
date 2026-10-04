@@ -1,4 +1,4 @@
-let currentViewID;
+let currentViewID = "inbox";
 
 export function setCurrentView(id) {
     currentViewID = id;

@@ -49,3 +49,11 @@ export function deleteTask(id) {
         allTasks.splice(index, 1);
     };
 }
+
+export function getTask(id) {
+    const index = allTasks.findIndex(task => task.id == id);
+    if (index > -1) {
+        const task = allTasks[index];
+        return task;
+    }
+}
