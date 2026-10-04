@@ -1,7 +1,7 @@
 import { allProjects } from "./project.js";
 import { resetCurrentView } from "./projectUIManager.js";
 import { getCurrentView } from "./state.js";
-import { createTask, deleteTask, editTask, getTask } from "./task.js";
+import { createTask, deleteTask, editTask, getTask, toggleTaskCompletion } from "./task.js";
 
 const container = document.querySelector("html");
 const taskForm = document.querySelector(".task-form");
@@ -29,11 +29,9 @@ function handleTaskFormActions() {
         const taskFormSelect = taskForm.querySelector("#projects");
         if (action == "confirm") {
             registerTask();
-            clearProjects(taskFormSelect);
             resetCurrentView();
-        } else {
-            clearProjects(taskFormSelect);
         }
+        clearProjects(taskFormSelect);
     });
 }
 
@@ -77,6 +75,8 @@ function clearTaskForm() {
 // ** this will be called in load tasks in projectUI **
 export function renderTaskCard(task) {
     const taskObj = taskCard.cloneNode(true);
+    const checkbox = taskObj.querySelector("#complete-task");
+    checkbox.checked = task.completed;
     const taskTitle = taskObj.querySelector("#task-item");
     const taskDate = taskObj.querySelector("#date-text");
     const taskPriority = taskObj.querySelector("#priority-display");
@@ -143,15 +143,14 @@ function openTaskEdit() {
 function handleTaskEdit() {
     taskEditForm.addEventListener("close", () => {
         const action = taskEditForm.returnValue;
+        const taskTitle = taskEditForm.querySelector("#edit-task-title");
+        const taskDescription = taskEditForm.querySelector("#edit-description");
+        const taskDueDate = taskEditForm.querySelector("#edit-due-date");
+        const taskPriority = taskEditForm.querySelector("#edit-priority");
+        const taskCurrentInbox = taskEditForm.querySelector("#edit-projects");
 
         if (action === "confirm") {
             // parse form inputs back into task
-            const taskTitle = taskEditForm.querySelector("#edit-task-title");
-            const taskDescription = taskEditForm.querySelector("#edit-description");
-            const taskDueDate = taskEditForm.querySelector("#edit-due-date");
-            const taskPriority = taskEditForm.querySelector("#edit-priority");
-            const taskCurrentInbox = taskEditForm.querySelector("#edit-projects");
-
             const newTitle = taskTitle.value;
             const newDescription = taskDescription.value;
             const newDueDate = taskDueDate.value;
@@ -160,7 +159,25 @@ function handleTaskEdit() {
             const taskID = taskEditForm.dataset.activeTaskID;
             
             editTask(taskID, newTitle, newDescription, newDueDate, newPriority, newProject);
-            clearProjects(taskCurrentInbox);
+            resetCurrentView();
+        }
+        clearProjects(taskCurrentInbox);
+    });
+}
+
+// event listener - toggle task completion
+function handleTaskCompletion() {
+    // get the closest radio button
+    container.addEventListener("change", (event) => {
+        const taskCard = event.target.closest(".task-card");
+        if (!taskCard) return;
+
+        const taskID = taskCard.dataset.id;
+        const checkbox = event.target.closest("#complete-task");
+        if (checkbox) {
+            toggleTaskCompletion(taskID);
+            const task = getTask(taskID);
+            checkbox.checked = task.completed;
             resetCurrentView();
         }
     });
@@ -172,4 +189,5 @@ export function taskUIInit() {
     handleTaskFormActions();
     handleTaskDeletion();
     handleTaskEdit();
+    handleTaskCompletion();
 }
