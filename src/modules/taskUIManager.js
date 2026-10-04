@@ -167,7 +167,6 @@ function handleTaskEdit() {
 
 // event listener - toggle task completion
 function handleTaskCompletion() {
-    // get the closest radio button
     container.addEventListener("change", (event) => {
         const taskCard = event.target.closest(".task-card");
         if (!taskCard) return;
