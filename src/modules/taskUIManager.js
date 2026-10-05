@@ -3,7 +3,7 @@ import { resetCurrentView } from "./projectUIManager.js";
 import { getCurrentView } from "./state.js";
 import { createTask, deleteTask, editTask, getTask, toggleTaskCompletion } from "./task.js";
 
-const container = document.querySelector("html");
+export const container = document.querySelector("html");
 const taskForm = document.querySelector(".task-form");
 const taskEditForm = document.getElementById("edit-task-form");
 const taskCard = document.querySelector(".task-card");

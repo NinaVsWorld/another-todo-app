@@ -1,14 +1,15 @@
 import { createProject, allProjects, getProject, deleteProject, editProject } from "./project.js";
 import { allTasks } from "./task.js";
-import { renderTaskCard } from "./taskUIManager.js";
+import { renderTaskCard, container } from "./taskUIManager.js";
 import { getCurrentView, setCurrentView } from "./state.js";
 import { parseISO, isToday, isThisISOWeek, addDays, startOfToday, isAfter } from "date-fns";
+import { deleteSearchBar } from "./search.js";
 
 const projForm = document.querySelector(".project-form");
 const projEditForm = document.getElementById("edit-project-form");
 const projectCard = document.querySelector(".project-card");
 const projectList = document.querySelector(".projects-list");
-const container = document.querySelector("html");
+//const container = document.querySelector("html");
 
 // separate this out and refactor like the edit project form function
 function openAddProject() {
@@ -51,12 +52,15 @@ function displayProject(proj) {
 
 // Page rendering functions
 function renderPage(title, tasksArr) {
-    const page = document.querySelector("#task-list");
     const pageTitle = document.querySelector("#page-title");
     pageTitle.textContent = title;
-    // wipes screen
+    deleteSearchBar();
+    renderTasks(tasksArr);
+}
+
+export function renderTasks(tasksArr) {
+    const page = document.getElementById("task-list");
     page.replaceChildren();
-    // loops thru taskArr
     for (const task of tasksArr) {
         // draws the cards
         const taskCard = renderTaskCard(task);
