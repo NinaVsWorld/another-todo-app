@@ -1,3 +1,4 @@
+import { saveProjects } from "./storage.js";
 import { allTasks, deleteTask } from "./task.js";
 export const allProjects = []
 
@@ -11,6 +12,7 @@ class Project {
 export function createProject(title) {
     const project = new Project(title);
     allProjects.push(project);
+    saveProjects(allProjects);
     return project.id;
 }
 
@@ -19,6 +21,7 @@ export function editProject(id, newTitle) {
     if (index > -1) {
         const project = allProjects[index];
         project.title = newTitle ?? project.title;
+        saveProjects(allProjects);
     }
 }
 
@@ -28,6 +31,7 @@ export function deleteProject(id) {
         // need to delete all tasks that have specific project id
         deleteAllProjTasks(id);
         allProjects.splice(index, 1);
+        saveProjects(allProjects);
     };
 }
 

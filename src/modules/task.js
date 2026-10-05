@@ -1,3 +1,5 @@
+import { saveTasks } from "./storage.js"
+
 export const allTasks = []
 
 class Task {
@@ -15,6 +17,7 @@ class Task {
 export function createTask(title, description, date, priority, projID) {
     const task = new Task(title, description, date, priority, projID);
     allTasks.push(task);
+    saveTasks(allTasks);
 }
 
 // completing and uncompleting task
@@ -28,6 +31,7 @@ export function toggleTaskCompletion(id) {
             task.completed = false;
         }
     }
+    saveTasks(allTasks);
 }
 
 export function editTask(id, newTitle, newDescription, newDate, newPriority, newProjID) {
@@ -40,6 +44,7 @@ export function editTask(id, newTitle, newDescription, newDate, newPriority, new
         task.date = newDate ?? task.date;
         task.priority = newPriority ?? task.priority;
         task.projectID = newProjID ?? task.projectID;
+        saveTasks(allTasks);
     }
 }
 
@@ -47,6 +52,7 @@ export function deleteTask(id) {
     const index = allTasks.findIndex(task => task.id == id);
     if (index > -1) {
         allTasks.splice(index, 1);
+        saveTasks(allTasks);
     };
 }
 
