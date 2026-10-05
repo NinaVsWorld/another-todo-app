@@ -34,6 +34,12 @@ function insertSearchBar() {
     searchBar.type = "search";
     searchBar.id = "search-bar"
     list.insertBefore(searchBar, taskList);
+
+    // delete addtask button
+    const addTaskBtn = list.querySelector("#add-task-btn");
+    if (list.contains(addTaskBtn)) {
+        addTaskBtn.remove();
+    }
     handleSearchTyping();
 }
 

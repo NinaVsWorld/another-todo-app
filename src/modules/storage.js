@@ -23,10 +23,3 @@ export function saveCurrentViewId(currentView) {
     let currentViewString = JSON.stringify(currentView);
     localStorage.setItem("currentView", currentViewString);
 }
-
-// function that retrieves data from local storage when app is first loaded
-// make sure app doesnt crash if data we want from localStorage may not exist
-// return empty array if nothing in localstorage
-// i can just initialise this in the variables for allProjects/tasks
-
-// on opening, have to render projects menu

@@ -238,6 +238,8 @@ export function resetCurrentView() {
 // master event listener function
 export function init() {
     openAddProject();
+    renderProjectsMenu();
+    resetCurrentView();
     handleProjFormActions();
     handleInboxesClick();
     handleProjectClicks();

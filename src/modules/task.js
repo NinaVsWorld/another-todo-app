@@ -1,6 +1,6 @@
 import { saveTasks } from "./storage.js"
 
-export const allTasks = []
+export const allTasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
 class Task {
     constructor(title, description, date, priority, projID) {

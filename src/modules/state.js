@@ -1,7 +1,6 @@
 import { saveCurrentViewId } from "./storage.js";
 
-let currentViewID = "inbox";
-// for now, will need to change to current project when perisiten data?
+let currentViewID = JSON.parse(localStorage.getItem("currentView")) || "inbox";
 
 export function setCurrentView(id) {
     currentViewID = id;

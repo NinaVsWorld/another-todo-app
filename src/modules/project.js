@@ -1,6 +1,6 @@
 import { saveProjects } from "./storage.js";
 import { allTasks, deleteTask } from "./task.js";
-export const allProjects = []
+export const allProjects = JSON.parse(localStorage.getItem("projects")) || [];
 
 class Project {
     constructor(title) {
