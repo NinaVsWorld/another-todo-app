@@ -1,8 +1,8 @@
 import "./style.css";
-import { init } from "./modules/projectUIManager.js";
+import { projectUIInit } from "./modules/projectUIManager.js";
 import { taskUIInit } from "./modules/taskUIManager.js";
-import { initSearch } from "./modules/search.js";
+import { searchUIInit } from "./modules/search.js";
 
-init()
+projectUIInit();
 taskUIInit();
-initSearch();
+searchUIInit();

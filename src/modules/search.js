@@ -52,7 +52,7 @@ function handleSearchTyping() {
     });
 }
 
-// need to delete search bar from page when not in the search tab
+// delete search bar from page when not in the search tab
 export function deleteSearchBar() {
     const page = document.querySelector(".list-container");
     const searchBar = document.getElementById("search-bar");
@@ -61,6 +61,6 @@ export function deleteSearchBar() {
     }
 }
 
-export function initSearch() {
+export function searchUIInit() {
     handleSearchClick();
 }

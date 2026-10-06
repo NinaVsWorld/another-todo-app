@@ -9,9 +9,7 @@ const projForm = document.querySelector(".project-form");
 const projEditForm = document.getElementById("edit-project-form");
 const projectCard = document.querySelector(".project-card");
 const projectList = document.querySelector(".projects-list");
-//const container = document.querySelector("html");
 
-// separate this out and refactor like the edit project form function
 function openAddProject() {
     container.addEventListener("click", (event) => {
         const addProjBtn = event.target.closest(".add-proj");
@@ -236,7 +234,7 @@ export function resetCurrentView() {
 }
 
 // master event listener function
-export function init() {
+export function projectUIInit() {
     openAddProject();
     renderProjectsMenu();
     resetCurrentView();
