@@ -2,7 +2,7 @@ import { createProject, allProjects, getProject, deleteProject, editProject } fr
 import { allTasks } from "./task.js";
 import { renderTaskCard, container } from "./taskUIManager.js";
 import { getCurrentView, setCurrentView } from "./state.js";
-import { parseISO, isToday, isThisISOWeek, addDays, startOfToday, isAfter } from "date-fns";
+import { parseISO, isToday, isThisISOWeek, endOfISOWeek, startOfToday, isAfter } from "date-fns";
 import { deleteSearchBar } from "./search.js";
 
 const projForm = document.querySelector(".project-form");
@@ -96,12 +96,12 @@ function loadThisWeek() {
     setCurrentView(document.getElementById("this-week").dataset.id);;
 }
 
-function loadNextWeek() { // this is still problematic
+function loadNextWeek() {
     const nextWeeksTasks = allTasks.filter(task => {
         const dueDate = task.date;
         const result = parseISO(dueDate);
-        const week = addDays(startOfToday(), 7);
-        if (isAfter(result, week) && !task.completed) {
+        const endOfWeek = endOfISOWeek(startOfToday(), {weekStartsOn: 1});
+        if (isAfter(result, endOfWeek) && !task.completed) {
             return task;
         }
     });
