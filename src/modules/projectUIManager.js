@@ -132,6 +132,7 @@ function loadProject(projID) {
 // event listeners - side bar
 function handleProjectClicks() {
     container.addEventListener("click", (event) => {
+        if (event.target.closest(".ellipse-menu")) { return; }
         const target = event.target.closest(".project-card");
         if (target) {
             const projectID = target.dataset.id;
@@ -160,6 +161,9 @@ function initProjectMenuEvents() {
     container.addEventListener("click", (event) => {
         const projectCard = event.target.closest(".project-card");
         if (!projectCard) { 
+            if (event.target.closest(".ellipse-menu")){
+                return;
+            }
             closeAllMenus();
             return;
         }

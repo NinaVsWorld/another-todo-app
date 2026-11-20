@@ -101,6 +101,9 @@ function initTaskMenuEvents() {
     container.addEventListener("click", (event) => {
         const taskCard = event.target.closest(".task-card");
         if (!taskCard) {
+            if (event.target.closest(".ellipse-menu")){
+                return;
+            }
             closeAllMenus();
             return;
         }
