@@ -50,7 +50,15 @@ function displayProject(proj) {
 
 // Page rendering functions
 function renderPage(title, tasksArr) {
+    const listContainer = container.querySelector(".list-container");
+    const addTaskBtn = document.querySelector("#add-task-btn");
+
+    if (addTaskBtn.style.display === "none") {
+        addTaskBtn.style.display = "";
+    }
+
     const pageTitle = document.querySelector("#page-title");
+
     pageTitle.textContent = title;
     deleteSearchBar();
     renderTasks(tasksArr);

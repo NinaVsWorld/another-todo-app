@@ -47,7 +47,7 @@ function insertSearchBar() {
     // delete addtask button
     const addTaskBtn = list.querySelector("#add-task-btn");
     if (list.contains(addTaskBtn)) {
-        addTaskBtn.remove();
+        addTaskBtn.style.display = "none";
     }
     handleSearchTyping();
 }
