@@ -193,7 +193,7 @@ function handleInboxesClick() {
 }
 
 // remove active state from non-selected inboxes
-function removeActiveState(inbox) {
+export function removeActiveState(inbox) {
     container.querySelectorAll(".is-active").forEach(box => {
         if (box.id !== inbox.id) {
             box.classList.remove("is-active");

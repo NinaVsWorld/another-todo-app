@@ -1,4 +1,4 @@
-import { renderTasks } from "./projectUIManager.js";
+import { removeActiveState, renderTasks } from "./projectUIManager.js";
 import { allTasks } from "./task.js";
 import { container } from "./taskUIManager.js";
 
@@ -17,7 +17,10 @@ function searchTask(searchString) {
 // add a search bar to the page
 function handleSearchClick() {
     container.addEventListener("click", (event) => {
-        if (event.target.closest("#search")) {
+        const search = event.target.closest("#search");
+        if (search) {
+            removeActiveState(search);
+            search.classList.add("is-active");
             const pageTitle = document.getElementById("page-title");
             pageTitle.textContent = "Search";
             insertSearchBar();
@@ -29,6 +32,12 @@ function handleSearchClick() {
 // wipe the screen, add the search bar to page
 function insertSearchBar() {
     const list = container.querySelector(".list-container");
+    const searchBarExists = list.querySelector("#search-bar");
+
+    if (searchBarExists) {
+        return;
+    }
+
     const taskList = document.getElementById("task-list");
     const searchBar = document.createElement("input");
     searchBar.type = "search";

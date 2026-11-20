@@ -60,6 +60,7 @@ body {
     cursor: pointer;
     background-color: var(--btn-hover-colour);
     border-radius: 10px;
+    color: #2B72C2;
 }
 
 svg, p {
@@ -161,6 +162,7 @@ p {
     display: flex;
     gap: 4px;
     padding: 10px;
+    color: black;
 }
 
 #delete, #proj-delete {
