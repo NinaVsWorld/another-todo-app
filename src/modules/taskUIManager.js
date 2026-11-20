@@ -82,13 +82,24 @@ export function renderTaskCard(task) {
     const taskPriority = taskObj.querySelector("#priority-display");
 
     taskTitle.textContent = task.title;
-    taskDate.textContent = task.date;
+
+    // format the date so it displays nicely on the card
+    const cssDate = new Date(task.date);
+    const formatted = new Intl.DateTimeFormat('en-AU', {
+        dateStyle: 'medium'
+    }).format(cssDate);
+
+    taskDate.textContent = formatted;
+
     if (task.priority === "0") {
         taskPriority.textContent = "Low";
+        taskPriority.dataset.status = "Low";
     } else if (task.priority === "1") {
-        taskPriority.textContent = "Medium";
+        taskPriority.textContent = "Med";
+        taskPriority.dataset.status = "Medium";
     } else {
         taskPriority.textContent = "High";
+        taskPriority.dataset.status = "High";
     }
 
     // will need to upload the description (or this can be a separate function when the task is expanded)
