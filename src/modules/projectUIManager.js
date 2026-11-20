@@ -4,6 +4,7 @@ import { renderTaskCard, container } from "./taskUIManager.js";
 import { getCurrentView, setCurrentView } from "./state.js";
 import { parseISO, isToday, isThisISOWeek, endOfISOWeek, startOfToday, isAfter } from "date-fns";
 import { deleteSearchBar } from "./search.js";
+import { set } from "date-fns/fp";
 
 const projForm = document.querySelector(".project-form");
 const projEditForm = document.getElementById("edit-project-form");
@@ -42,7 +43,7 @@ function renderProjectsMenu() {
 
 function displayProject(proj) {
     const project = projectCard.cloneNode(true);
-    project.style.display = "block";
+    project.style.display = "flex";
     project.querySelector(".card-title").textContent = proj.title;
     project.dataset.id = proj.id;
     projectList.append(project);
@@ -155,40 +156,59 @@ function handleInboxesClick() {
     });
 }
 
-// when a project is deleted, need to reset/set currentViewID to something else
-// when a project is deleted, need to reset the currentView to whatever the new currentViewID is
-// event listeners - delete projects
-function handleProjectDeletion() {
+// opening the project ellipsis menu
+function initProjectMenuEvents() {
     container.addEventListener("click", (event) => {
-        const delBtn = event.target.closest("#proj-delete");
-        if (!delBtn) { return; }
-        
-        const project = event.target.closest(".project-card");
-        if (!project) { return; }
+        const projectCard = event.target.closest(".project-card");
+        if (!projectCard) { 
+            closeAllMenus();
+            return;
+        }
 
-        const projID = project.dataset.id;
-        deleteProject(projID);
-        setCurrentView("inbox");
-        renderProjectsMenu();
-        resetCurrentView();
+        const menu = projectCard.querySelector(".ellipse-menu");
+
+        // open the ellipse menu
+        if (event.target.closest(".menu-btn")) {
+            const isOpen = menu.classList.contains("open");
+            closeAllMenus();
+            if (!isOpen) {
+                menu.classList.add("open");
+                menu.querySelector(".menu-btn").setAttribute("aria-expanded", "true");
+            }
+            return;
+        }
+
+        // clicked edit inside ellipse menu
+        if (event.target.closest("#edit-project")) {
+            closeAllMenus();
+            const id = projectCard.dataset.id;
+            const input = projEditForm.querySelector("#edited-project-title");
+            projEditForm.dataset.activeProjID = id;
+            input.value = getProject(id).title;
+            projEditForm.showModal();
+            return;
+        }
+
+        // clicked delete inside ellipse menu
+        if (event.target.closest("#proj-delete")) {
+            closeAllMenus();
+            const id = projectCard.dataset.id;
+            deleteProject(id);
+            setCurrentView("inbox");
+            renderProjectsMenu();
+            resetCurrentView();
+            return;
+        }
+
+        // click anywhere else closes ellipse menu
+        closeAllMenus();
     });
 }
 
-function openProjectEdit() {
-    container.addEventListener("click", (event) => {
-        const projectCard = event.target.closest(".project-card");
-        if (!projectCard) return;
-
-        const editBtn = event.target.closest("#edit-project");
-        if (editBtn) {
-            const input = projEditForm.querySelector("#edited-project-title");
-            const id = projectCard.dataset.id;
-
-            projEditForm.dataset.activeProjID = id;
-
-            input.value = getProject(id).title;
-            projEditForm.showModal();
-        }
+function closeAllMenus() {
+    container.querySelectorAll(".ellipse-menu.open").forEach((menu) => {
+        menu.classList.remove("open");
+        menu.querySelector(".menu-btn").setAttribute("aria-expanded", "false");
     });
 }
 
@@ -241,7 +261,6 @@ export function projectUIInit() {
     handleProjFormActions();
     handleInboxesClick();
     handleProjectClicks();
-    handleProjectDeletion();
-    openProjectEdit();
     handleProjectEdit();
+    initProjectMenuEvents();
 }
