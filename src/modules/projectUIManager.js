@@ -4,7 +4,6 @@ import { renderTaskCard, container } from "./taskUIManager.js";
 import { getCurrentView, setCurrentView } from "./state.js";
 import { parseISO, isToday, isThisISOWeek, endOfISOWeek, startOfToday, isAfter } from "date-fns";
 import { deleteSearchBar } from "./search.js";
-import { set } from "date-fns/fp";
 
 const projForm = document.querySelector(".project-form");
 const projEditForm = document.getElementById("edit-project-form");
@@ -205,7 +204,7 @@ function initProjectMenuEvents() {
     });
 }
 
-function closeAllMenus() {
+export function closeAllMenus() {
     container.querySelectorAll(".ellipse-menu.open").forEach((menu) => {
         menu.classList.remove("open");
         menu.querySelector(".menu-btn").setAttribute("aria-expanded", "false");

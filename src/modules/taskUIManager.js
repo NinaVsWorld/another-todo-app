@@ -1,5 +1,5 @@
 import { allProjects } from "./project.js";
-import { resetCurrentView } from "./projectUIManager.js";
+import { closeAllMenus, resetCurrentView } from "./projectUIManager.js";
 import { getCurrentView } from "./state.js";
 import { createTask, deleteTask, editTask, getTask, toggleTaskCompletion } from "./task.js";
 
@@ -96,48 +96,67 @@ export function renderTaskCard(task) {
     return taskObj;
 }
 
-function handleTaskDeletion() {
+// master function to handle task deletion and edit in ellipse menu
+function initTaskMenuEvents() {
     container.addEventListener("click", (event) => {
-        const delBtn = event.target.closest("#delete");
-        if (!delBtn) { return; }
+        const taskCard = event.target.closest(".task-card");
+        if (!taskCard) {
+            closeAllMenus();
+            return;
+        }
 
-        const task = event.target.closest(".task-card");
-        if (!task) { return; }
+        const menu = taskCard.querySelector(".ellipse-menu");
 
-        const taskID = task.dataset.id;
-        deleteTask(taskID);
-        resetCurrentView();
+        // open the ellipse menu
+        if (event.target.closest(".menu-btn")) {
+            const isOpen = menu.classList.contains("open");
+            closeAllMenus();
+            if (!isOpen) {
+                menu.classList.add("open");
+                menu.querySelector(".menu-btn").setAttribute("aria-expanded", "true");
+            }
+            return;
+        }
+
+        const editBtn = event.target.closest("#edit-task");
+        // clicked edit inside ellipse menu
+        if (editBtn) {
+            openTaskEdit(taskCard);
+            return;
+        }
+
+        // clicked delete inside ellipse menu
+        if (event.target.closest("#delete")) {
+            const id = taskCard.dataset.id;
+            deleteTask(id);
+            resetCurrentView();
+            return;
+        }
+
+        closeAllMenus();
     });
 }
 
 // open task edit
-function openTaskEdit() {
-    container.addEventListener("click", (event) => {
-        const taskCard = event.target.closest(".task-card");
-        if (!taskCard) return;
+function openTaskEdit(taskCard) {
+    const id = taskCard.dataset.id;
+    taskEditForm.dataset.activeTaskID = id;
+    const task = getTask(id);
+    const taskTitle = taskEditForm.querySelector("#edit-task-title");
+    const taskDescription = taskEditForm.querySelector("#edit-description");
+    const taskDueDate = taskEditForm.querySelector("#edit-due-date");
+    const taskPriority = taskEditForm.querySelector("#edit-priority");
+    const taskCurrentInbox = taskEditForm.querySelector("#edit-projects");
+    updateProjects(taskCurrentInbox);
 
-        const editBtn = event.target.closest("#edit-task");
-        if (editBtn) {
-            const id = taskCard.dataset.id;
-            taskEditForm.dataset.activeTaskID = id;
-            const task = getTask(id);
-            const taskTitle = taskEditForm.querySelector("#edit-task-title");
-            const taskDescription = taskEditForm.querySelector("#edit-description");
-            const taskDueDate = taskEditForm.querySelector("#edit-due-date");
-            const taskPriority = taskEditForm.querySelector("#edit-priority");
-            const taskCurrentInbox = taskEditForm.querySelector("#edit-projects");
-            updateProjects(taskCurrentInbox);
+    // populate the form fields
+    taskTitle.value = task.title;
+    taskDescription.value = task.description;
+    taskDueDate.value = task.date;
+    taskPriority.value = task.priority;
+    taskCurrentInbox.value = task.projectID;
 
-            // populate the form fields
-            taskTitle.value = task.title;
-            taskDescription.value = task.description;
-            taskDueDate.value = task.date;
-            taskPriority.value = task.priority;
-            taskCurrentInbox.value = task.projectID;
-
-            taskEditForm.showModal();
-        }
-    });
+    taskEditForm.showModal();
 }
 
 function handleTaskEdit() {
@@ -184,9 +203,8 @@ function handleTaskCompletion() {
 
 export function taskUIInit() {
     openAddTask();
-    openTaskEdit();
     handleTaskFormActions();
-    handleTaskDeletion();
     handleTaskEdit();
     handleTaskCompletion();
+    initTaskMenuEvents();
 }
