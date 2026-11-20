@@ -137,6 +137,16 @@ function handleProjectClicks() {
         if (target) {
             const projectID = target.dataset.id;
             loadProject(projectID);
+            removeActiveStateProjects(projectID);
+            target.classList.add("is-active");
+        }
+    });
+}
+
+function removeActiveStateProjects(projId) {
+    container.querySelectorAll(".is-active").forEach(proj => {
+        if (proj.dataset.id !== projId) {
+            proj.classList.remove("is-active");
         }
     });
 }
@@ -144,15 +154,50 @@ function handleProjectClicks() {
 // event listeners - handle inboxes
 function handleInboxesClick() {
     container.addEventListener("click", (event) => {
-        if (event.target.closest("#today")) { loadTodayTasks(); }
+        const todayInbox = event.target.closest("#today");
+        const thisWeekInbox = event.target.closest("#this-week");
+        const nextWeekInbox = event.target.closest("#next-week");
+        const inbox = event.target.closest("#inbox");
+        const completed = event.target.closest("#completed");
 
-        if (event.target.closest("#this-week")) { loadThisWeek(); }
+        if (todayInbox) { 
+            loadTodayTasks(); 
+            removeActiveState(todayInbox);
+            todayInbox.classList.add("is-active");
+        }
 
-        if (event.target.closest("#next-week")) { loadNextWeek(); }
+        if (thisWeekInbox) { 
+            loadThisWeek(); 
+            removeActiveState(thisWeekInbox);
+            thisWeekInbox.classList.add("is-active");
+        }
 
-        if (event.target.closest("#inbox")) { loadInbox(); }
+        if (nextWeekInbox) { 
+            loadNextWeek(); 
+            removeActiveState(nextWeekInbox);
+            nextWeekInbox.classList.add("is-active");
+        }
 
-        if (event.target.closest("#completed")) { loadCompletedTasks(); }
+        if (inbox) { 
+            loadInbox();
+            removeActiveState(inbox);
+            inbox.classList.add("is-active");
+        }
+
+        if (completed) { 
+            loadCompletedTasks(); 
+            removeActiveState(completed);
+            completed.classList.add("is-active");
+        }
+    });
+}
+
+// remove active state from non-selected inboxes
+function removeActiveState(inbox) {
+    container.querySelectorAll(".is-active").forEach(box => {
+        if (box.id !== inbox.id) {
+            box.classList.remove("is-active");
+        }
     });
 }
 

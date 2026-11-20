@@ -56,6 +56,12 @@ body {
     border-radius: 10px;
 }
 
+.is-active {
+    cursor: pointer;
+    background-color: var(--btn-hover-colour);
+    border-radius: 10px;
+}
+
 svg, p {
     margin: 0;
     line-height: 1.1;
@@ -130,16 +136,17 @@ p {
     visibility: hidden;
 }
 
-.ellipse-menu.open .menu-dropdown {
+.project-card .ellipse-menu.open .menu-dropdown {
     visibility: visible;
-    left: 305px;
-    transform: translateY(-50px);
+    left: 340px;
+    transform: translateY(-60px);
 }
 
-.task-card-ellipse.open .menu-dropdown {
-    left: auto;
+.task-card .ellipse-menu.open .menu-dropdown {
+    visibility: visible;
     right: 70px;
-}
+    transform: translateY(-60px);
+} 
 
 .ellipse-menu {
     margin-left: auto;
@@ -154,6 +161,10 @@ p {
     display: flex;
     gap: 4px;
     padding: 10px;
+}
+
+#delete, #proj-delete {
+    color: #E55353;
 }
 
 #page-title {
