@@ -14,7 +14,8 @@ body {
     --menu-colour: #F2F3F5;
     --btn-hover-colour: #dde9f8;
     --card-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    --default-font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: var(--default-font);
 }
 
 .list-container {
@@ -212,6 +213,16 @@ p {
 
 .description-active {
     display: block;
+    transition: 0.2s ease-in-out;
+}
+
+.description-title {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.description {
+    font-size: 16px;
 }
 
 #priority-display {
@@ -277,4 +288,130 @@ p {
 
 .checkbox-wrapper [type="checkbox"]:checked + .fake-checkbox {
     background-color: black;
+}
+
+#search-bar {
+    padding: 5px;
+    border-radius: 5px;
+}
+
+dialog[open] {
+    width: 400px;
+    inset: 0;
+    margin: auto;
+    border-radius: 15px;
+    display: flex;
+    gap: 1em;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--body-colour);
+    padding: 1em;
+    border: var(--body-colour) solid 2px;
+}
+
+form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.title, .description-input, .due-date, .priority {
+    border-bottom: lightgray solid 1px;
+    display: flex;
+    padding-bottom: 0.75em;
+    align-items: center;
+}
+
+.title, .due-date, .priority, .project {
+    padding-top: 0.75em;
+}
+
+.project {
+    display: flex;
+}
+
+.title {
+    gap: 5em;
+}
+
+.description-input {
+    padding-top: 0.5em;
+    gap: 1.75em;
+    align-items: flex-start;
+}
+
+#priority-icon, #due-date-icon, #project-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.due-date label, .priority label, .project label {
+    margin-left: 5px;
+}
+
+.priority select, .project select {
+    margin-left: auto;
+    border-radius: 5px;
+    border: none;
+    padding: 2.5px 5px;
+    background-color: #E5E5EA;
+}
+
+.project select {
+    width: 250px;
+}
+
+.buttons {
+    margin-left: auto;
+}
+
+.title input, #description {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    font-size: 16px;
+}
+
+#description {
+    width: 100%;
+    font-family: var(--default-font);
+    resize: none;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+.due-date input {
+    padding: 5px;
+    border-radius: 15px;
+    background-color: #E5E5EA;
+    border: none;
+    font-family: var(--default-font);
+    margin-left: 20px;
+
+    background-image: url("data:image/svg+xml;utf8,<svg aria-hidden='true' xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' viewBox='0 0 24 24'><path stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 10h16m-8-3V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-7h.01v.01H8V13Zm4 0h.01v.01H12V13Zm4 0h.01v.01H16V13Zm-8 4h.01v.01H8V17Zm4 0h.01v.01H12V17Zm4 0h.01v.01H16V17Z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 7px center;
+    background-size: 18px 18px;
+}
+
+.buttons {
+    padding-top: 0.75em;
+}
+
+.cancel {
+    background-color: transparent;
+    border: none;
+    color: #1D6EC1;
+}
+
+.create-task {
+    background-color: #1D6EC1;
+    border: none;
+    color: var(--body-colour);
+    border-radius: 5px;
+    padding: 3px 5px;
+    margin-left: 5px;
 }
