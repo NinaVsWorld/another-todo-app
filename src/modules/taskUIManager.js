@@ -220,9 +220,16 @@ function handleTaskCompletion() {
 // handles expanding a task card
 function expandTaskCard() {
     container.addEventListener("click", (event) => {
+        if (event.target.closest(".menu-btn") ||
+            event.target.closest(".ellipse-menu")
+        ) { return; }
+
         const taskCard = event.target.closest(".task-card");
         if (!taskCard) { return; }
+
         const descriptionBox = taskCard.querySelector(".description-box");
+        if (!descriptionBox) { return; }
+        
         descriptionBox.classList.toggle("description-active");
     });
 }
