@@ -102,7 +102,9 @@ export function renderTaskCard(task) {
         taskPriority.dataset.status = "High";
     }
 
-    // will need to upload the description (or this can be a separate function when the task is expanded)
+    // will need to upload the description (or this can be a separate function when the task is expanded) 
+    const notes = taskObj.querySelector(".description");
+    notes.textContent = task.description;
     taskObj.dataset.id = task.id;
     return taskObj;
 }
@@ -215,8 +217,19 @@ function handleTaskCompletion() {
     });
 }
 
+// handles expanding a task card
+function expandTaskCard() {
+    container.addEventListener("click", (event) => {
+        const taskCard = event.target.closest(".task-card");
+        if (!taskCard) { return; }
+        const descriptionBox = taskCard.querySelector(".description-box");
+        descriptionBox.classList.toggle("description-active");
+    });
+}
+
 export function taskUIInit() {
     openAddTask();
+    expandTaskCard();
     handleTaskFormActions();
     handleTaskEdit();
     handleTaskCompletion();
