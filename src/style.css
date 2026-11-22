@@ -316,11 +316,16 @@ form {
     flex-direction: column;
 }
 
-.title, .description-input, .due-date, .priority, .description-edit {
+.title, .description-input, .due-date, .priority, .description-edit, .title-project {
     border-bottom: lightgray solid 1px;
     display: flex;
     padding-bottom: 0.75em;
     align-items: center;
+}
+
+.title-project {
+    border: none;
+    padding-bottom: 0;
 }
 
 .title, .due-date, .priority, .project {
@@ -331,7 +336,7 @@ form {
     display: flex;
 }
 
-.title {
+.title, .title-project {
     gap: 5em;
 }
 
@@ -367,7 +372,7 @@ form {
     margin-left: auto;
 }
 
-.title input, #description, .description-edit textarea {
+.title input, #description, .description-edit textarea, .title-project input {
     background-color: transparent;
     border: none;
     outline: none;
@@ -408,7 +413,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: #1D6EC1;
 }
 
-.create-task, .edit-task {
+.create-task, .edit-task, .create-project {
     background-color: #1D6EC1;
     border: none;
     color: var(--body-colour);

@@ -17,8 +17,9 @@ function openAddTask() {
             const taskFormSelect = taskForm.querySelector("#projects");
             updateProjects(taskFormSelect);
             
-            // defaults the form inbox to whichever project we are currently in
-            taskFormSelect.value = getCurrentView();
+            // defaults the form inbox to whichever project we are currently in or "inbox" if no valid projects found
+            const matchedProject = allProjects.find(proj => proj.id === getCurrentView());
+            taskFormSelect.value = matchedProject ? matchedProject.id : document.getElementById("inbox").dataset.id;
         }
     });
 }
