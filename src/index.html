@@ -121,9 +121,9 @@
             <label for="title">Title</label>
             <input type="text" class="task-title" id="edit-task-title" required placeholder="Task Title" required>
         </div>
-        <div class="description">
+        <div class="description-edit">
             <label for="description">Description</label>
-            <textarea name="description" id="edit-description">Description</textarea>
+            <textarea name="description" id="edit-description" placeholder="Edit notes or description..."></textarea>
         </div>
         <div class="due-date">
             <label for="due-date">Due Date</label>
@@ -143,8 +143,8 @@
             <select name="projects" class="project-options" id="edit-projects"></select>
         </div>
         <div class="buttons">
-            <button type="submit" value="confirm" id="edit-task">Edit</button>
             <button type="submit" value="cancel" formnovalidate class="cancel">Cancel</button>
+            <button type="submit" value="confirm" class="edit-task">Edit</button>
         </div>
     </form>
 </dialog>

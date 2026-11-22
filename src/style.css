@@ -316,7 +316,7 @@ form {
     flex-direction: column;
 }
 
-.title, .description-input, .due-date, .priority {
+.title, .description-input, .due-date, .priority, .description-edit {
     border-bottom: lightgray solid 1px;
     display: flex;
     padding-bottom: 0.75em;
@@ -335,7 +335,7 @@ form {
     gap: 5em;
 }
 
-.description-input {
+.description-input, .description-edit {
     padding-top: 0.5em;
     gap: 1.75em;
     align-items: flex-start;
@@ -363,17 +363,18 @@ form {
 }
 
 .buttons {
+    display: flex;
     margin-left: auto;
 }
 
-.title input, #description {
+.title input, #description, .description-edit textarea {
     background-color: transparent;
     border: none;
     outline: none;
     font-size: 16px;
 }
 
-#description {
+#description, .description-edit textarea {
     width: 100%;
     font-family: var(--default-font);
     resize: none;
@@ -407,7 +408,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: #1D6EC1;
 }
 
-.create-task {
+.create-task, .edit-task {
     background-color: #1D6EC1;
     border: none;
     color: var(--body-colour);
