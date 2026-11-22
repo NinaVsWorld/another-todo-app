@@ -9,6 +9,7 @@ const projForm = document.querySelector(".project-form");
 const projEditForm = document.getElementById("edit-project-form");
 const projectCard = document.querySelector(".project-card");
 const projectList = document.querySelector(".projects-list");
+const menu = document.querySelector(".menu");
 
 function openAddProject() {
     container.addEventListener("click", (event) => {
@@ -157,6 +158,13 @@ function removeActiveStateProjects(projId) {
             proj.classList.remove("is-active");
         }
     });
+}
+
+function toggleSideBar() {
+    const toggleBtn = container.querySelector(".toggle-btn");
+    toggleBtn.addEventListener("click", (event) => {
+        menu.classList.toggle("collapsed");
+    })
 }
 
 // event listeners - handle inboxes
@@ -319,4 +327,6 @@ export function projectUIInit() {
     handleProjectClicks();
     handleProjectEdit();
     initProjectMenuEvents();
+
+    toggleSideBar();
 }
